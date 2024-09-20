@@ -5,7 +5,7 @@ import Header from '../../components/Layout/Header'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-
+import axios from "axios"
 import { API_URL } from '../../constants/constants';
 
 // alert(API_URL)
@@ -16,18 +16,30 @@ const Register = () => {
   const [password,setPassword]=useState("");
   const [passwordVisible,setPasswordVisible]=useState(false);
   const navigate=useNavigate();
-  const handleSubmitRegister=(e)=>{
+  const handleSubmitRegister=async(e)=>{
     e.preventDefault();
     // alert(Object.entries(e));
     if(true){
-      toast.success('OTP is sent to Your Mobile Number');
+      // toast.success('OTP is sent to Your Mobile Number');
       setTimeout(()=>{
-        navigate("/verification")
-      },2000);
-      
+        // navigate("/verification")
+      },2000); 
       // toast.success(e.target.value);
-    }else{
-      toast.error('Failed');
+    }
+    try {
+      const res=await axios.post(`${API_URL}/api/v1/auth/register`,{
+        username,
+        mobile,
+        password
+      });
+      if(res.data.code==200){
+        toast.success('OTP is sent to Your Mobile Number');
+      }else{
+        toast.error(res.data.message)
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error(error.message)
     }
   }
   const handleOpenPassword=(e)=>{
