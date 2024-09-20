@@ -6,6 +6,8 @@ import Contact from './pages/Contact';
 import Pagenotfound from './pages/Pagenotfound';
 import Policy from './pages/Policy';
 import Register from './pages/Auth/Register';
+import Verification from './pages/Auth/Verification';
+
 function App() {
   return (
     <>
@@ -16,6 +18,7 @@ function App() {
       <Route path='/policy' element={<Policy/>}/>
       <Route path='*' element={<Pagenotfound/>}/>
       <Route path="/register" element={<Register/>}></Route>
+      <Route path='verification' element={<Verification/>}></Route>
     </Routes>
     </>
   )
