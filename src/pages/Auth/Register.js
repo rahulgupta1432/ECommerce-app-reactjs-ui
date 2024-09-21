@@ -7,7 +7,6 @@ import { useNavigate,Link } from 'react-router-dom';
 import axios from "axios"
 import { API_URL } from '../../constants/constants';
 
-// alert(API_URL)
 
 const Register = ({setContactMethod,setContactNumber }) => {
   const [username,setUsername]=useState("");
@@ -76,7 +75,6 @@ const Register = ({setContactMethod,setContactNumber }) => {
               value={username}
               onChange={(e)=>setUsername(e.target.value)}
               required
-            // autoComplete="username"
             />
           </div>
           
@@ -122,10 +120,6 @@ const Register = ({setContactMethod,setContactNumber }) => {
           </div>
 
           <div className="flex-row">
-            {/* <div>
-              <input type="checkbox" />
-              <label>Remember me</label>
-            </div> */}
             <span className="span">Forgot password?</span>
           </div>
           <button className="button-submit mt-1 pt-0">Sign Up</button>
