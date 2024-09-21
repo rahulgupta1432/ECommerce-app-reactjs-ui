@@ -1,6 +1,6 @@
 import React from 'react'
 import {NavLink,Link} from "react-router-dom";
-import { GiShoppingBag } from "react-icons/gi";
+// import { GiShoppingBag } from "react-icons/gi";
 import { Helmet } from 'react-helmet';
 
 function Header({title,description,keywords,author}) {
