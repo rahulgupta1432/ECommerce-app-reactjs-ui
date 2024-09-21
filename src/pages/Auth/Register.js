@@ -3,7 +3,7 @@ import '../../css/Register.css'
 import Header from '../../components/Layout/Header'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate,Link, NavLink } from 'react-router-dom';
 import axios from "axios"
 import { API_URL } from '../../constants/constants';
 
@@ -120,13 +120,13 @@ const Register = ({setContactMethod,setContactNumber }) => {
           </div>
 
           <div className="flex-row">
-            <span className="span">Forgot password?</span>
+            <span className="span"><NavLink to={'/forget-password'} style={{textDecoration:'none'}}>Forgot password?</NavLink></span>
           </div>
           <button className="button-submit mt-1 pt-0">Sign Up</button>
 
           <p className="p mt-0">
           Already have an account? 
-        <Link to="/login" className="span"> Sign In</Link>
+        <Link to="/login" className="span" style={{textDecoration:'none'}}> Sign In</Link>
       </p>
           {/* <p className="p line">Or With</p> */}
 

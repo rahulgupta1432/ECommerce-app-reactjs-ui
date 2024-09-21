@@ -7,6 +7,9 @@ import Pagenotfound from './pages/Pagenotfound';
 import Policy from './pages/Policy';
 import Register from './pages/Auth/Register';
 import Verification from './pages/Auth/Verification';
+import Login from './pages/Auth/Login';
+import ForgetPassword from './pages/Auth/ForgetPassword';
+import ResetPassword from './pages/Auth/ResetPassword';
 
 function App() {
   const [contactMethod, setContactMethod] = useState('');
@@ -20,7 +23,10 @@ function App() {
       <Route path='/policy' element={<Policy/>}/>
       <Route path='*' element={<Pagenotfound/>}/>
       <Route path="/register" element={<Register setContactMethod={setContactMethod} setContactNumber={setContactNumber}/>}></Route>
-      <Route path='verification' element={<Verification contactMethod={contactMethod } getContactNumber={getContactNumber}/>}></Route>
+      <Route path='/verification' element={<Verification contactMethod={contactMethod } getContactNumber={getContactNumber}/>}></Route>
+      <Route path='/login' element={<Login/>}></Route>
+      <Route path='/forget-password' element={<ForgetPassword/>}></Route>
+      <Route path='/reset-password' element={<ResetPassword/>}></Route>
     </Routes>
     </>
   )
