@@ -1,7 +1,6 @@
 import React from 'react'
 import Header from './Header';
 import Footer from './Footer';
-import {Helmet} from "react-helmet";
 function Layout({children}) {
   return (
     <div>

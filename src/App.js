@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {Routes,Route} from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import About from './pages/About';
@@ -9,6 +9,8 @@ import Register from './pages/Auth/Register';
 import Verification from './pages/Auth/Verification';
 
 function App() {
+  const [contactMethod, setContactMethod] = useState('');
+  const [getContactNumber,setContactNumber]=useState('');
   return (
     <>
     <Routes>
@@ -17,8 +19,8 @@ function App() {
       <Route path='/contact' element={<Contact/>}/>
       <Route path='/policy' element={<Policy/>}/>
       <Route path='*' element={<Pagenotfound/>}/>
-      <Route path="/register" element={<Register/>}></Route>
-      <Route path='verification' element={<Verification/>}></Route>
+      <Route path="/register" element={<Register setContactMethod={setContactMethod} setContactNumber={setContactNumber}/>}></Route>
+      <Route path='verification' element={<Verification contactMethod={contactMethod } getContactNumber={getContactNumber}/>}></Route>
     </Routes>
     </>
   )

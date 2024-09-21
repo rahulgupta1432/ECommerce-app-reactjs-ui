@@ -1,26 +1,7 @@
-// import React from 'react'
-// import Layout from '../components/Layout/Layout'
-// import Header from '../components/Layout/Header'
-
-// function About() {
-//   return (
-//     <>
-//     <Header>
-
-//     </Header>
-//     </>
-//   )
-// }
-
-// export default About
-
-
 import React from 'react';
 import '../css/About.css'; 
 import { FaTwitter,FaFacebookF, FaGithub, FaPinterest } from "react-icons/fa";
 import Header from '../components/Layout/Header';
-import Footer from '../components/Layout/Footer';
-import Layout from '../components/Layout/Layout';
 
 
 function About() {

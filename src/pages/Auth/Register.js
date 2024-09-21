@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
-import Layout from '../../components/Layout/Layout'
 import '../../css/Register.css'
 import Header from '../../components/Layout/Header'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import axios from "axios"
 import { API_URL } from '../../constants/constants';
 
 // alert(API_URL)
 
-const Register = () => {
+const Register = ({setContactMethod,setContactNumber }) => {
   const [username,setUsername]=useState("");
   const [mobile,setMobile]=useState("");
   const [password,setPassword]=useState("");
@@ -19,27 +18,28 @@ const Register = () => {
   const handleSubmitRegister=async(e)=>{
     e.preventDefault();
     // alert(Object.entries(e));
-    if(true){
-      // toast.success('OTP is sent to Your Mobile Number');
-      setTimeout(()=>{
-        // navigate("/verification")
-      },2000); 
-      // toast.success(e.target.value);
-    }
+    const isEmail=mobile.includes('@')
     try {
       const res=await axios.post(`${API_URL}/api/v1/auth/register`,{
         username,
-        mobile,
+        [isEmail?'email':'mobile']:mobile,
         password
       });
-      if(res.data.code==200){
-        toast.success('OTP is sent to Your Mobile Number');
+      const response=await res.data;
+      if(response.code===200){
+        const contactMethod = isEmail ? 'Email' : 'Mobile';
+        setContactMethod(contactMethod);
+        setContactNumber(mobile);
+        toast.success(`OTP is sent to your ${contactMethod}`);  
+        setTimeout(()=>{
+          navigate("/verification")
+        },2000);
       }else{
-        toast.error(res.data.message)
+        console.log("else block")
+        toast.error(response.message)
       }
     } catch (error) {
-      console.log(error)
-      toast.error(error.message)
+      toast.error(error.response.data.message)
     }
   }
   const handleOpenPassword=(e)=>{
@@ -83,17 +83,17 @@ const Register = () => {
 
 
           <div className="flex-column">
-            <label>Mobile</label>
+            <label>Email</label>
           </div>
           <div className="inputForm">
             <svg height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z" />
             </svg>
 
-            <input type="tel" 
+            <input type="text" 
             id="mobile" 
             className="input"
-            placeholder="Enter your Mobile"
+            placeholder="Enter your Mobile / Email"
             value={mobile}
             onChange={(e)=>setMobile(e.target.value)}
             required
@@ -128,9 +128,12 @@ const Register = () => {
             </div> */}
             <span className="span">Forgot password?</span>
           </div>
-          <button className="button-submit mt-1 pt-0">Verify Mobile Number</button>
+          <button className="button-submit mt-1 pt-0">Sign Up</button>
 
-          <p className="p mt-0">Already have an account? <span className="span">Sign In</span></p>
+          <p className="p mt-0">
+          Already have an account? 
+        <Link to="/login" className="span"> Sign In</Link>
+      </p>
           {/* <p className="p line">Or With</p> */}
 
           {/* <div className="flex-row"> */}

@@ -2,29 +2,57 @@ import React, { useState } from 'react'
 import Header from '../../components/Layout/Header'
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-const Verification = () => {
-  const [mobile,setMobile]=useState("");
-  const [password,setPassword]=useState("");
-  const [passwordVisible,setPasswordVisible]=useState(false);
+import axios from "axios";
+import { API_URL } from '../../constants/constants';
+const Verification = ({contactMethod,getContactNumber }) => {
+  const [otp,setOtp]=useState("");
   const navigate=useNavigate();
-  const handleSubmitRegister=(e)=>{
+  const handleVerifyOtp=async(e)=>{
     e.preventDefault();
-    // alert(Object.entries(e));
-    if(true){
-      toast.success('OTP is sent to Your Mobile Number');
-      setTimeout(()=>{
-        navigate("/verification")
-      },2000);
-      
-      // toast.success(e.target.value);
-    }else{
-      toast.error('Failed');
+    try {
+        const res=await axios.post(`${API_URL}/api/v1/auth/verify-otp`,{
+          [contactMethod.toLowerCase()]:getContactNumber,
+          otp
+        });
+        const response=await res.data;
+        if(response.code===200){
+          toast.success(`Your ${contactMethod} is verified!`);
+          // toast.success(response.data.token)
+          console.log(response.data[0])
+          // localStorage.setItem('x-authorization',JSON.stringify(response.data[0].token));
+          // localStorage.setItem('username',JSON,stringify(response.data[0].username));
+          // localStorage.setItem('role',JSON.stringify(response.data[0].role))
+          localStorage.setItem('x-authorization', JSON.stringify(response.data[0].token));
+          localStorage.setItem('username', JSON.stringify(response.data[0].username));
+          localStorage.setItem('role', JSON.stringify(response.data[0].role));
+
+          setTimeout(()=>{
+            navigate("/dashboard")
+          },2000);
+        }else{
+          console.log("else block")
+          toast.error(response.message);
+        }
+      } catch (error) {
+        toast.error(error.response.data.message)
+      }
+}
+
+const handleResentOtp=async()=>{
+  try {
+    const res=await axios.get(`${API_URL}/api/v1/auth/resend-otp?${contactMethod.toLowerCase()}=${getContactNumber}`);
+    const response=await res.data;
+    if(response.code===200){
+      toast.success(`OTP is sent to your ${contactMethod}`);
     }
+    else{
+      toast.error(response.message);
+    }
+  } catch (error) {
+    toast.error(error.response.data.message)
   }
-  const handleOpenPassword=(e)=>{
-    e.preventDefault();
-    setPasswordVisible(!passwordVisible);
-  }
+}
+  
   return (
     <>
       <Header title={"ECommerce App - Mobile Verification"} />
@@ -33,12 +61,12 @@ const Verification = () => {
           <h2 className='register-title'>OTP</h2>
           <h3 className='register-subtitle'>Verification Code</h3>
           <p className='register-description'>
-            We have sent a verification code to your mobile number
+            We have sent a verification code to your {contactMethod}
 
           </p>
         </div>
 
-        <form className="form" >
+        <form className="form" onSubmit={handleVerifyOtp}>
           <div className="flex-column">
             <label htmlFor="username">OTP</label>
           </div>
@@ -54,13 +82,12 @@ const Verification = () => {
               className="input"
               placeholder="Enter your OTP"
               required
+              value={otp}
+              onChange={(e)=>setOtp(e.target.value)}
             // autoComplete="username"
             />
           </div>
-          
-
-
-          
+                    
           <div className="flex-row">
             {/* <div>
               <input type="checkbox" />
@@ -69,7 +96,7 @@ const Verification = () => {
           </div>
           <button className="button-submit mt-1 pt-0">Verify</button>
 
-          <p className="p mt-0">Didn't receive the code? <span className="span">Resend</span></p>
+          <p className="p mt-0">Didn't receive the code? <span className="span" onClick={handleResentOtp}>Resend</span></p>
           {/* <p className="p line">Or With</p> */}
 
           {/* <div className="flex-row"> */}
