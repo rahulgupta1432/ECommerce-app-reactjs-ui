@@ -10,6 +10,8 @@ import Verification from './pages/Auth/Verification';
 import Login from './pages/Auth/Login';
 import ForgetPassword from './pages/Auth/ForgetPassword';
 import ResetPassword from './pages/Auth/ResetPassword';
+import Dashboard from './pages/user/Dashboard';
+import PrivateRoute from './components/Routes/PrivateRoute';
 
 function App() {
   const [contactMethod, setContactMethod] = useState('');
@@ -27,6 +29,12 @@ function App() {
       <Route path='/login' element={<Login/>}></Route>
       <Route path='/forget-password' element={<ForgetPassword/>}></Route>
       <Route path='/reset-password' element={<ResetPassword/>}></Route>
+
+      <Route path='/dashboard' element={<PrivateRoute/>}>
+
+            <Route path="" element={<Dashboard/>}/>
+      </Route>
+      
     </Routes>
     </>
   )

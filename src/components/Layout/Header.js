@@ -1,9 +1,24 @@
 import React from 'react'
 import {NavLink,Link} from "react-router-dom";
-// import { GiShoppingBag } from "react-icons/gi";
 import { Helmet } from 'react-helmet';
+import { useAuth } from '../../context/Auth';
+import { toast } from 'react-toastify';
 
 function Header({title,description,keywords,author}) {
+  const [auth,setAuth]=useAuth();
+  const handleLogout=async()=>{
+    try {
+      localStorage.removeItem("auth");
+      localStorage.removeItem("x-authorization");
+      localStorage.removeItem("username");
+      localStorage.removeItem("role");
+      localStorage.removeItem("id");
+      setAuth({...auth,user:null,token:''});
+      toast.success("Logout Succesfully");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }
   return (
     <>
     <Helmet>
@@ -40,7 +55,9 @@ function Header({title,description,keywords,author}) {
           <NavLink to="/category" className="nav-link">Category</NavLink>
         </li>
 
-        <li className="nav-item">
+        {
+          !auth.user?(<>
+          <li className="nav-item">
           <NavLink to="/register" className="nav-link">
           Register
           </NavLink>
@@ -51,6 +68,16 @@ function Header({title,description,keywords,author}) {
           Login
           </NavLink>
         </li>
+          
+          </>):(<>
+            <li className="nav-item">
+          <NavLink onClick={handleLogout} to="/login" className="nav-link">
+          Logout
+          </NavLink>
+        </li>
+          
+          </>)
+        }
 
         <li className="nav-item">
           <NavLink to="/cart" className="nav-link" href="#">

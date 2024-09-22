@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../components/Layout/Header';
-import '../css/Contact.css';
+import '../styles/Contact.css';
 // import "../App.css"
 
 function Contact() {

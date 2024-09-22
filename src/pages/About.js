@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/About.css'; 
+import '../styles/About.css'; 
 import { FaTwitter,FaFacebookF, FaGithub, FaPinterest } from "react-icons/fa";
 import Header from '../components/Layout/Header';
 

@@ -1,10 +1,15 @@
 import React from 'react'
-import Layout from '../components/Layout/Layout'
+import Layout from '../components/Layout/Layout';
+import { useAuth } from '../context/Auth';
 
 function HomePage() {
+  const [auth]=useAuth();
   return (
     <Layout>
-      {/* <h1>HomePage</h1> */}
+      <h1>HomePage</h1>
+      <pre>
+        {JSON.stringify(auth,null,4)}
+      </pre>
       
     </Layout>
   )
