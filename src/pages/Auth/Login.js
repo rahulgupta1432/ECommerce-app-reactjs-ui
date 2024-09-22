@@ -4,11 +4,13 @@ import {Link, NavLink, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer} from 'react-toastify';
 import axios from 'axios';
 import { API_URL } from '../../constants/constants';
+import { useAuth } from '../../context/Auth';
 const Login = () => {
     const navigate=useNavigate()
     const [passwordVisible,setPasswordVisible]=useState(false);
     const [mobile,setMobile]=useState("");
     const [password,setPassword]=useState("");
+    const [auth,setAuth]=useAuth();
     const handleOpenPassword=(e)=>{
         e.preventDefault();
         setPasswordVisible(!passwordVisible);
@@ -24,15 +26,17 @@ const Login = () => {
             const response=await res.data;
             if(response.code===200){
                 toast.success("Login Succesfully")
+                setAuth({...auth,user:response.data[0],token:response.data[0].token})
                 const res=response.data[0];
                 localStorage.setItem("x-authorization",JSON.stringify(res.token));
                 localStorage.setItem("username",JSON.stringify(res.username));
                 localStorage.setItem("role",JSON.stringify(res.role));
                 localStorage.setItem("id",JSON.stringify(res._id))
+                localStorage.setItem("auth",JSON.stringify(res))
                 // localStorage.setItem("profile",JSON.stringify(res));
                 setTimeout(()=>{
-                    navigate("/dash")
-                },2000)
+                    navigate("/")
+                },1000)
             }else{
                 toast.error(response.message)
             }
