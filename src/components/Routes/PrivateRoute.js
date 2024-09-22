@@ -1,34 +1,6 @@
-// import { useEffect,useState  } from "react";
-// import { useAuth } from "../../context/Auth";
-// import { Outlet } from "react-router-dom";
-// import axios from "axios";
-// import {API_URL} from "../../constants/constants";
-// // import Spinner from "../Spinner";
-// export default function PrivateRoute(){
-//     const [ok,setOk]=useState(false);
-//     const [loading,setLoading]=useState(true);
-//     const [auth]=useAuth();
-//     // const token=localStorage.getItem("x-authorization")
-    
-//     useEffect(()=>{
-//         const authCheck=async()=>{
-//             const res=await axios.get(`${API_URL}/api/v1/auth/protect`)
-//             if(res.data.ok){
-//                 setOk(true)
-//             }else{
-//                 setOk(false)
-//             }  
-//         };
-//     if(auth?.token)authCheck()
-//     },[auth?.token])
-//     return ok?<Outlet/>:'spinner';
-//     // return ok?<Outlet/>:<Spinner/>;
-// }
-
-
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/Auth";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../constants/constants";
 import Spinner from "../Spinner";
@@ -37,6 +9,8 @@ export default function PrivateRoute() {
     const [ok, setOk] = useState(false);
     const [loading, setLoading] = useState(true); // Add loading state
     const [auth] = useAuth();
+
+    const location = useLocation();  //page ko redirect ke liye kr rha hu after login using state
 
     useEffect(() => {
         const authCheck = async () => {
@@ -57,9 +31,14 @@ export default function PrivateRoute() {
         }
     }, [auth?.token]);
 
+    useEffect(() => {
+        const timeout = setTimeout(() => setLoading(false), 60000);
+        return () => clearTimeout(timeout);
+    }, []);
+
     if (loading) return <Spinner />; 
     if (!ok) {
-        return <Navigate to="/login" replace />;
+        return <Navigate to="/login" state={{from:location.pathname}} replace />;
     }
 
     return <Outlet />

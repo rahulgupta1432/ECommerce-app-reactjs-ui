@@ -20,20 +20,24 @@ function App() {
     <>
     <Routes>
       <Route path='/' element={<HomePage/>}/>
-      <Route path='/about' element={<About/>}/>
-      <Route path='/contact' element={<Contact/>}/>
-      <Route path='/policy' element={<Policy/>}/>
-      <Route path='*' element={<Pagenotfound/>}/>
-      <Route path="/register" element={<Register setContactMethod={setContactMethod} setContactNumber={setContactNumber}/>}></Route>
-      <Route path='/verification' element={<Verification contactMethod={contactMethod } getContactNumber={getContactNumber}/>}></Route>
-      <Route path='/login' element={<Login/>}></Route>
-      <Route path='/forget-password' element={<ForgetPassword/>}></Route>
-      <Route path='/reset-password' element={<ResetPassword/>}></Route>
-
       <Route path='/dashboard' element={<PrivateRoute/>}>
 
             <Route path="" element={<Dashboard/>}/>
       </Route>
+
+
+
+      <Route path='/about' element={<About/>}/>
+      <Route path='/contact' element={<Contact/>}/>
+      <Route path='/policy' element={<Policy/>}/>
+      <Route path='*' element={<Pagenotfound/>}/>
+      <Route path="/register" element={<Register setContactMethod={setContactMethod} setContactNumber={setContactNumber}/>}/>
+      <Route path='/verification' element={<Verification contactMethod={contactMethod } getContactNumber={getContactNumber}/>}/>
+      <Route path='/login' element={<Login/>}/>
+      <Route path='/forget-password' element={<ForgetPassword/>}/>
+      <Route path='/reset-password' element={<ResetPassword/>}/>
+
+      
       
     </Routes>
     </>

@@ -28,6 +28,7 @@
     background-repeat: no-repeat;
     box-sizing: border-box;
     animation: rotationBack 3s linear infinite;
+    animation: rotationBack 4s linear infinite; /* Changed from 3s to 4s  Additionally*/
   }
   
   .loader::after {
@@ -43,6 +44,8 @@
     background-repeat: no-repeat;
     box-sizing: border-box;
     animation: rotationBack 4s linear infinite reverse;
+    animation: rotationBack 4s linear infinite reverse; /* Already set to 4s Additional*/
+
   }
   
   @keyframes rotationBack {
