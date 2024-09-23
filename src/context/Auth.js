@@ -31,7 +31,7 @@ const AuthProvider=({children})=>{
                     __v:parseData.__v
                 },
                 // user:parseData,
-                // token:parseData.token
+                token:parseData.token
             })
         }
     },[]);

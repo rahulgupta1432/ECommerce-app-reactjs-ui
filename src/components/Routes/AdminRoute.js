@@ -5,7 +5,7 @@ import axios from "axios";
 import { API_URL } from "../../constants/constants";
 import Spinner from "../Spinner";
 
-export default function PrivateRoute() {
+export default function AdminRoute() {
     const [ok, setOk] = useState(false);
     const [loading, setLoading] = useState(true); // Add loading state
     const [auth] = useAuth();
@@ -15,7 +15,7 @@ export default function PrivateRoute() {
     useEffect(() => {
         const authCheck = async () => {
             try {
-                const res = await axios.get(`${API_URL}/api/v1/auth/user-auth`);
+                const res = await axios.get(`${API_URL}/api/v1/auth/admin-auth`);
                 setOk(res.data.ok);
             } catch (error) {
                 console.error("Authentication check failed", error);
@@ -38,7 +38,7 @@ export default function PrivateRoute() {
 
     if (loading) return <Spinner />; 
     if (!ok) {
-        return <Navigate to="/" state={{from:location.pathname}} replace />;
+        return <Navigate to="/login" state={{from:location.pathname}} replace />;
     }
 
     return <Outlet />

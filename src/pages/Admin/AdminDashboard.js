@@ -1,19 +1,18 @@
-import React from 'react'
-import Layout from '../../components/Layout/Layout'
-import UserMenu from '../../components/Layout/UserMenu'
+import React from 'react';
+import Layout from '../../components/Layout/Layout';
+import AdminMenu from '../../components/Layout/AdminMenu';
 import { useAuth } from '../../context/Auth';
+// import '../../styles/AdminDashboard.css';
 
-const Dashboard = () => {
+const AdminDashboard = () => {
   const [auth] = useAuth();
+  
   return (
-    // <>
-    // Hello Dashboard Page
-    // </>
-    <Layout title={'Dashboard - ECommerce App'}>
+    <Layout title={"ECommerce App - Admin Dashboard"}>
       <div className='container-fluid m-3 p-3'>
         <div className='row'>
           <div className='col-md-3'>
-            <UserMenu />
+            <AdminMenu />
           </div>
           <div className='col-md-9'>
             <div className='card w-75 p-3'>
@@ -22,9 +21,9 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        </div>
+      </div>
     </Layout>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default AdminDashboard;

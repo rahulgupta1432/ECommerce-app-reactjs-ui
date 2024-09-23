@@ -10,8 +10,15 @@ import Verification from './pages/Auth/Verification';
 import Login from './pages/Auth/Login';
 import ForgetPassword from './pages/Auth/ForgetPassword';
 import ResetPassword from './pages/Auth/ResetPassword';
-import Dashboard from './pages/user/Dashboard';
+import Dashboard from './pages/User/Dashboard';
 import PrivateRoute from './components/Routes/PrivateRoute';
+import AdminRoute from './components/Routes/AdminRoute';
+import AdminDashboard from './pages/Admin/AdminDashboard';
+import CategoriesPage from './pages/Admin/CategoriesPage';
+import ProductsPage from './pages/Admin/ProductsPage';
+import OrdersPage from './pages/Admin/OrdersPage';
+import OfferPage from './pages/Admin/OfferPage';
+import UsersPage from './pages/Admin/UsersPage';
 
 function App() {
   const [contactMethod, setContactMethod] = useState('');
@@ -20,12 +27,22 @@ function App() {
     <>
     <Routes>
       <Route path='/' element={<HomePage/>}/>
-      <Route path='/dashboard' element={<PrivateRoute/>}>
-
-            <Route path="" element={<Dashboard/>}/>
+      
+            {/* Nested private routes */}
+      <Route path='/dashboard' element={<PrivateRoute />}>
+        <Route index element={<Dashboard />} />
+        <Route path='user' element={<Dashboard />} />
+        
+        {/* Nested admin routes under dashboard */}
+        <Route path='admin' element={<AdminRoute />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path='categories' element={<CategoriesPage />} />
+          <Route path='products' element={<ProductsPage />} />
+          <Route path='orders' element={<OrdersPage />} />
+          <Route path='offers' element={<OfferPage />} />
+          <Route path='users' element={<UsersPage />} />
+        </Route>
       </Route>
-
-
 
       <Route path='/about' element={<About/>}/>
       <Route path='/contact' element={<Contact/>}/>
