@@ -1,11 +1,16 @@
 import React from 'react'
 import "../styles/Spinner.css"
+import Layout from './Layout/Layout'
+
 const Spinner = () => {
     return (
         <>
-            <div class="bg">
-                <div class="loader"></div>
+            <Layout>
+            <div className="bg d-flex justify-content-center align-items-center" style={{height:'70vh'}}>
+                <div className="loader"></div>
             </div>
+
+            </Layout>
         </>
     )
 }

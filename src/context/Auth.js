@@ -9,7 +9,7 @@ const AuthProvider=({children})=>{
         user:null,
         token:''
     });
-    axios.defaults.headers.common['Authorization']=auth?.token
+    axios.defaults.headers.common['x-authorization']=auth?.token
     useEffect(()=>{
         const data=localStorage.getItem("auth");
         if(data){
@@ -31,7 +31,7 @@ const AuthProvider=({children})=>{
                     __v:parseData.__v
                 },
                 // user:parseData,
-                // token:parseData.token
+                token:parseData.token
             })
         }
     },[]);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Header from '../../components/Layout/Header';
-import {Link, NavLink, useNavigate } from 'react-router-dom';
+import {Link, NavLink, useNavigate,useLocation } from 'react-router-dom';
 import { toast, ToastContainer} from 'react-toastify';
 import axios from 'axios';
 import { API_URL } from '../../constants/constants';
@@ -11,6 +11,7 @@ const Login = () => {
     const [mobile,setMobile]=useState("");
     const [password,setPassword]=useState("");
     const [auth,setAuth]=useAuth();
+    const location=useLocation();
     const handleOpenPassword=(e)=>{
         e.preventDefault();
         setPasswordVisible(!passwordVisible);
@@ -34,8 +35,11 @@ const Login = () => {
                 localStorage.setItem("id",JSON.stringify(res._id))
                 localStorage.setItem("auth",JSON.stringify(res))
                 // localStorage.setItem("profile",JSON.stringify(res));
+                const redirectPath = location.state?.from || "/"; // Redirect to the previous page or home
+
                 setTimeout(()=>{
-                    navigate("/")
+                    // navigate(location.state||"/")
+                    navigate(redirectPath);
                 },1000)
             }else{
                 toast.error(response.message)
