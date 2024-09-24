@@ -14,11 +14,13 @@ import Dashboard from './pages/User/Dashboard';
 import PrivateRoute from './components/Routes/PrivateRoute';
 import AdminRoute from './components/Routes/AdminRoute';
 import AdminDashboard from './pages/Admin/AdminDashboard';
-import CategoriesPage from './pages/Admin/CategoriesPage';
 import ProductsPage from './pages/Admin/ProductsPage';
 import OrdersPage from './pages/Admin/OrdersPage';
 import OfferPage from './pages/Admin/OfferPage';
 import UsersPage from './pages/Admin/UsersPage';
+import CategoryPage from './pages/Admin/CategoriesPage';
+import AdminMenu from './components/Layout/AdminMenu';
+// import TemplateDemo from './pages/Admin/TemplateDemo';
 
 function App() {
   const [contactMethod, setContactMethod] = useState('');
@@ -35,8 +37,9 @@ function App() {
         
         {/* Nested admin routes under dashboard */}
         <Route path='admin' element={<AdminRoute />}>
+        <Route element={<AdminMenu />}/>
           <Route index element={<AdminDashboard />} />
-          <Route path='categories' element={<CategoriesPage />} />
+          <Route path='categories' element={<CategoryPage />} />
           <Route path='products' element={<ProductsPage />} />
           <Route path='orders' element={<OrdersPage />} />
           <Route path='offers' element={<OfferPage />} />
@@ -53,6 +56,7 @@ function App() {
       <Route path='/login' element={<Login/>}/>
       <Route path='/forget-password' element={<ForgetPassword/>}/>
       <Route path='/reset-password' element={<ResetPassword/>}/>
+      {/* <Route path='/data' element={<TemplateDemo/>}></Route> */}
 
       
       

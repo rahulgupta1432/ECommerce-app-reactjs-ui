@@ -1,0 +1,43 @@
+/* .list-group {
+    padding: 1rem;
+}
+
+.list-group-item {
+    background-color: transparent; 
+    color: black; 
+    padding: 10px;
+    transition: background-color 0.3s, color 0.3s; 
+}
+
+.list-group-item:hover {
+    background-color: #003f7f; 
+    color: white;
+}
+
+.list-group-item-active {
+    background-color: #002e5c; 
+    color: white;
+}
+ */
+
+
+ .list-group {
+    padding: 1rem;
+}
+
+.list-group-item {
+    background-color: transparent; /* Default background */
+    color: black; /* Default text color */
+    padding: 10px; /* Add padding for better touch targets */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transitions */
+}
+
+.list-group-item:hover {
+    background-color: #488aec; /* Use the button color on hover */
+    color: white; /* Text color on hover */
+}
+
+.list-group-item-active {
+    background-color: #0056b3; /* A darker shade of the button color for active state */
+    color: white; /* Active link text color */
+}

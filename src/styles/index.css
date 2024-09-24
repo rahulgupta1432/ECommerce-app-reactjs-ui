@@ -1,0 +1,13 @@
+.custom-button {
+    background-color: #007adf; /* Change this to your desired color */
+    border: none;
+    color: white;
+}
+
+.custom-button:hover {
+    background-color: #005bb5; /* Change this to a darker shade for hover */
+}
+
+.custom-button:focus {
+    outline: none;
+}
