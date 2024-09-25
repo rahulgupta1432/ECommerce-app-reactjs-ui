@@ -32,7 +32,7 @@ export default function AdminRoute() {
     }, [auth?.token]);
 
     useEffect(() => {
-        const timeout = setTimeout(() => setLoading(false), 60000);
+        const timeout = setTimeout(() => setLoading(false), 2000);
         return () => clearTimeout(timeout);
     }, []);
 

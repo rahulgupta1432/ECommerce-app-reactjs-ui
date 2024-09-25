@@ -6,7 +6,7 @@ const Spinner = () => {
     return (
         <>
             <Layout>
-            <div className="bg d-flex justify-content-center align-items-center" style={{height:'70vh'}}>
+            <div className="bg d-flex justify-content-center align-items-center" style={{minHeight:'65vh',marginTop:'10px'}}>
                 <div className="loader"></div>
             </div>
 

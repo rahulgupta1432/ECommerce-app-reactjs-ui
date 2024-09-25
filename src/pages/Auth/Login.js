@@ -24,8 +24,8 @@ const Login = () => {
                 [isEmail?'email':'mobile']:mobile,
                 password
             })
-            const response=await res.data;
-            if(response.code===200){
+            const response=await res?.data;
+            if(response?.code===200){
                 toast.success("Login Succesfully")
                 setAuth({...auth,user:response.data[0],token:response.data[0].token})
                 const res=response.data[0];

@@ -20,6 +20,8 @@ import OfferPage from './pages/Admin/OfferPage';
 import UsersPage from './pages/Admin/UsersPage';
 import CategoryPage from './pages/Admin/CategoriesPage';
 import AdminMenu from './components/Layout/AdminMenu';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // import TemplateDemo from './pages/Admin/TemplateDemo';
 
 function App() {
@@ -61,6 +63,7 @@ function App() {
       
       
     </Routes>
+    <ToastContainer />
     </>
   )
 }
