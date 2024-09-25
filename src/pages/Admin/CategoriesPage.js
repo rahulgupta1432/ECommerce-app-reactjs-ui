@@ -8,7 +8,6 @@ import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
-
 import '../../styles/DataTable.css';
 import '../../styles/flag.css';
 import Header from '../../components/Layout/Header.js';
@@ -17,10 +16,19 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { API_URL } from '../../constants/constants.js';
 import "../../styles/index.css"
+import { InputText } from 'primereact/inputtext';
+import { Dialog } from 'primereact/dialog';
+import '../../styles/uploadFile.css';
 
 export default function CategoryPage() {
   const [categories, setCategories] = useState([]);
   let [searchQuery, setSearchQuery] = useState('');
+  const [dialogVisible,setDialogVisible]=useState(false);
+  const [newCategory,setNewCategory]=useState({
+    name:'',
+    image:null
+  })
+  const [formErrors,setFormErrors]=useState({});
 
   const getAllCategories = async (query = '') => {
     try {
@@ -114,7 +122,7 @@ export default function CategoryPage() {
         onChange={handleSearch}
       />
 
-      <button
+      <button onClick={()=>setDialogVisible(true)}
         style={{
           border: 'none',
           display: 'flex',
@@ -173,6 +181,42 @@ export default function CategoryPage() {
 
   const footer = `In total there are ${categories ? categories.length : 0} categories.`;
 
+  // handle Add new Category
+  const handleAddCategory=async()=>{
+    try {
+      const errors={};
+      if(!newCategory.name) errors.name='Name is required';
+      if(!newCategory.image)errors.image="Image is required";
+      setFormErrors(errors)
+      if(Object.keys(errors).length>0)return;
+
+      const formData=new FormData();
+      formData.append('name',newCategory.name);
+      formData.append('image',newCategory.image);
+      const response=await axios.post(`${API_URL}/api/v1/categories/add-category`,formData,{
+        headers:{
+          'Content-Type':'multipart/form-data'
+        }
+      });
+
+      let result=await response?.data;
+      if(result.code===200){
+        toast.success(`${newCategory.name} Category Added Successfully`);
+        getAllCategories();
+        // setNewCategory({ name: '', image: null });
+        setTimeout(()=>{
+          setDialogVisible(false);          
+        },1000)
+      }else{
+        toast.error(result.message);
+      }
+
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || error.message || "An error occurred.";
+      toast.error(errorMessage);
+    }
+  }
+
   return (
     <>
       <Header />
@@ -200,7 +244,101 @@ export default function CategoryPage() {
             </div>
           </div>
         </div>
-      </div>
+        </div>
+
+
+
+        {/* Add Product Dialog */}
+    <div className="card flex justify-content-center">
+        <Dialog
+            header="Add New Category"
+            visible={dialogVisible} 
+            onHide={() => setDialogVisible(false)} 
+            style={{ width: '50vw',height:'430px', padding: '10px',marginLeft:'20px' }} 
+            breakpoints={{ '960px': '70vw', '641px': '90vw' }} 
+        >
+            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start' }}>
+    <div className="file-upload-container">
+    <div className="file-upload" style={{marginTop:'-100px'}}>
+        <input class="file-input" id="fileInput" type="file" accept='.jpg,.jpeg,.png,.webp' onChange={(e) => {(e.target.files[0]);
+        setNewCategory({ ...newCategory,image: e.target.files[0] })}} />
+        <label className="file-label" for="fileInput">
+        <i className="upload-icon">📁</i>
+        <p>Upload Your Category Images: Drag &amp; Drop or Click Here</p>
+        </label>
+    </div>
+    </div>
+    
+
+
+
+    
+
+                
+
+                {/* Right side for other fields */}
+                <div style={{ flex: '2' }} className='ml-4'>
+                    {[
+                        { label: 'Category Name', id: 'name', type: 'text', value: newCategory.name, onChange: (e) => setNewCategory({ ...newCategory, name: e.target.value })},
+                    ].map(field => (
+                        <div className="field" style={{ marginBottom: '15px' }} key={field.id}>
+                            <label htmlFor={field.id} style={{ marginBottom: '5px', fontWeight: '600' }}>{field.label}</label>
+                            <InputText
+                                id={field.id}
+                                type={field.type}
+                                keyfilter={field.keyfilter}
+                                value={field.value}
+                                onChange={field.onChange}
+                                style={{ width: '95%', padding: '8px', borderRadius: '5px' }} // Full width for input
+                                required
+                            />
+                        {formErrors[field.id] && <small className="p-error">{formErrors[field.id]}</small>}
+                        </div>
+                    ))}
+                    {/* <MultiSelectDropdown/> */}
+                    <div className="field" style={{ marginBottom: '15px' }}>
+    {/* <MultiSelectDropdown
+    onChange={(e) => setNewCategory({ ...newCategory, category: e.value })}
+  /> */}
+</div>
+{formErrors.category && <small className="p-error">{formErrors.category}</small>}
+
+{/* Image preview */}
+<div className="image-previews" style={{ display: 'flex', flexWrap: 'wrap', marginTop: '30px',marginLeft:'80px' }}>
+    {newCategory.image && (
+        <div style={{ margin: '5px' }}>
+            <img
+                src={URL.createObjectURL(newCategory.image)}
+                alt="preview"
+                style={{ width: '300px', height: '200px', borderRadius: '5px', objectFit: 'cover' }}
+            />
+        </div>
+    )}
+</div>
+
+            {formErrors.image && <small className="p-error">{formErrors.image}</small>}
+
+
+        {/* Button container */}
+<div className="submit" style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
+    <Button
+        label='Add'
+        onClick={handleAddCategory}
+        className='mr-8'
+        style={{ width: '90px', height: 'auto' }}
+    />
+    <Button
+        label='Cancel'
+        severity="danger"
+        onClick={() => setDialogVisible(false)}
+        style={{ width: '90px', height: 'auto' }}
+    />
+</div>
+
+                </div>
+            </div>
+        </Dialog>
+    </div>  
     </>
   );
 }
