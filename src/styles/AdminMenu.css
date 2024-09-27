@@ -1,27 +1,4 @@
-/* .list-group {
-    padding: 1rem;
-}
-
-.list-group-item {
-    background-color: transparent; 
-    color: black; 
-    padding: 10px;
-    transition: background-color 0.3s, color 0.3s; 
-}
-
-.list-group-item:hover {
-    background-color: #003f7f; 
-    color: white;
-}
-
-.list-group-item-active {
-    background-color: #002e5c; 
-    color: white;
-}
- */
-
-
- .list-group {
+.list-group {
     padding: 1rem;
 }
 
@@ -41,3 +18,24 @@
     background-color: #0056b3; /* A darker shade of the button color for active state */
     color: white; /* Active link text color */
 }
+
+
+
+.custom-list-item {
+    color: gray; /* Default text color */
+    transition: color 0.3s ease;
+}
+
+.custom-list-item-action {
+    cursor: pointer;
+    text-decoration: none; /* Link underline ko hataana */
+}
+
+.custom-list-item-action:hover {
+    color: #dc3545; /* Bootstrap ka danger color */
+}
+
+.custom-list-item-action:hover svg {
+    color: #dc3545; /* Icon ka color bhi danger color mein */
+}
+

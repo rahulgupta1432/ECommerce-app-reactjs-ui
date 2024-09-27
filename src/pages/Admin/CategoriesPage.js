@@ -135,7 +135,7 @@ const handleUpdateCategory=async()=>{
 
 
   const imageBodyTemplate = (category) => {
-    return <img src={`${category.image}`} alt={category.image} className="w-6rem shadow-2 border-round" style={{ marginTop: '5px', marginLeft: '25px' }} />;
+    return <img src={`${category.image}`} alt={category.image} className="w-6rem shadow-2 border-round" style={{ marginTop: '5px', marginLeft: '25px',width:'100px',height:'100px',objectFit:'cover' }} />;
   };
 
   const ratingBodyTemplate = (category) => {
@@ -166,7 +166,7 @@ const handleUpdateCategory=async()=>{
     return (
       <div className="flex gap-2">
         <Button icon="pi pi-pencil" className="p-button-secondary" onClick={() => editCategory (category)} style={{borderRadius:'6px',height:'30px'}} />
-        <Button icon="pi pi-trash" className="p-button-danger" onClick={() => deleteCategory(category)} style={{borderRadius:'6px',height:'30px'}} outlined/>
+        <Button icon="pi pi-trash" className="p-button-danger" onClick={() => deleteCategory(category)} style={{borderRadius:'6px',height:'30px'}} />
           {/* <DeleteButton onClick={() => deleteCategory(category)}/> */}
       </div>
     );
@@ -284,6 +284,7 @@ const handleUpdateCategory=async()=>{
     }
   }
 
+
   return (
     <>
       <Header />
@@ -315,7 +316,7 @@ const handleUpdateCategory=async()=>{
 
 
 
-        {/* Add Product Dialog */}
+        {/* Add Category Dialog */}
     <div className="card flex justify-content-center">
         <Dialog
             header={selectedCategory?'Edit Category':'Add New Category'}
