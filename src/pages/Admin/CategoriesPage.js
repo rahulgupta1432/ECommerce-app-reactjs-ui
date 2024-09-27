@@ -19,7 +19,7 @@ import "../../styles/index.css"
 import { InputText } from 'primereact/inputtext';
 import { Dialog } from 'primereact/dialog';
 import '../../styles/uploadFile.css';
-import DeleteButton from '../../components/utils/DeleteButton.js';
+// import DeleteButton from '../../components/utils/DeleteButton.js';
 
 export default function CategoryPage() {
   const [categories, setCategories] = useState([]);
@@ -46,6 +46,7 @@ export default function CategoryPage() {
           name: category.name,
           image: category.image,
           category: category.name,
+          isDeleted: category.isDeleted,
           inventoryStatus: 'INSTOCK',
           rating: Math.floor(Math.random() * 5) + 1 ? Math.floor(Math.random() * 5) + 1 : 4.9
         }));
@@ -107,7 +108,6 @@ const handleUpdateCategory=async()=>{
 
 
   const deleteCategory = (category) => {
-    alert('hey')
     setSelectedCategory(category);
     setConfirmDeleteDialogVisible(true);
   };
@@ -147,6 +147,9 @@ const handleUpdateCategory=async()=>{
   };
 
   const getSeverity = (category) => {
+    if (category.isDeleted) {
+      return 'warning'; // Return warning if deleted
+    }
     switch (category.inventoryStatus) {
       case 'INSTOCK':
         return 'success';
@@ -162,9 +165,9 @@ const handleUpdateCategory=async()=>{
   const actionBodyTemplate = (category) => {
     return (
       <div className="flex gap-2">
-        <Button icon="pi pi-pencil" className="p-button-warning" onClick={() => editCategory (category)} outlined />
-        {/* <Button icon="pi pi-trash" className="p-button-danger" onClick={() => deleteCategory(category)} outlined/> */}
-          <DeleteButton onClick={() => deleteCategory(category)}/>
+        <Button icon="pi pi-pencil" className="p-button-secondary" onClick={() => editCategory (category)} style={{borderRadius:'6px',height:'30px'}} />
+        <Button icon="pi pi-trash" className="p-button-danger" onClick={() => deleteCategory(category)} style={{borderRadius:'6px',height:'30px'}} outlined/>
+          {/* <DeleteButton onClick={() => deleteCategory(category)}/> */}
       </div>
     );
   };
