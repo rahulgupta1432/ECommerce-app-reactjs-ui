@@ -19,6 +19,7 @@ import "../../styles/index.css"
 import { InputText } from 'primereact/inputtext';
 import { Dialog } from 'primereact/dialog';
 import '../../styles/uploadFile.css';
+// import DeleteButton from '../../components/utils/DeleteButton.js';
 
 export default function CategoryPage() {
   const [categories, setCategories] = useState([]);
@@ -26,9 +27,13 @@ export default function CategoryPage() {
   const [dialogVisible,setDialogVisible]=useState(false);
   const [newCategory,setNewCategory]=useState({
     name:'',
-    image:null
+    image:''
   })
   const [formErrors,setFormErrors]=useState({});
+  // const [select,setSelected]=useState(null);
+  const [selectedCategory, setSelectedCategory]=useState(null);
+  const [confirmDeleteDialogVisible, setConfirmDeleteDialogVisible] = useState(false);
+  
 
   const getAllCategories = async (query = '') => {
     try {
@@ -41,6 +46,7 @@ export default function CategoryPage() {
           name: category.name,
           image: category.image,
           category: category.name,
+          isDeleted: category.isDeleted,
           inventoryStatus: 'INSTOCK',
           rating: Math.floor(Math.random() * 5) + 1 ? Math.floor(Math.random() * 5) + 1 : 4.9
         }));
@@ -64,13 +70,70 @@ export default function CategoryPage() {
   }, []);
   const editCategory = (category) => {
     console.log('Editing category:', category);
+    setNewCategory({name:category.name,image:null});
+    setSelectedCategory(category);
+    setDialogVisible(true);
     // Implement your edit logic here
   };
 
+// handle Update Category
+const handleUpdateCategory=async()=>{
+  try {
+    const errors={};
+    if(!newCategory.name)errors.name='Name is Required';
+    setFormErrors(errors);
+    if(Object.keys(errors).length>0)return;
+    const formData=new FormData();
+    formData.append('name',newCategory.name);
+    formData.append('image',newCategory.image);
+    const response=await axios.put(`${API_URL}/api/v1/categories/update-category?categoryId=${selectedCategory.id}`,formData,{
+      headers:{
+        'Content-Type':'multipart/form-data'
+      }
+    })
+    const result = await response.data;
+    if (result.code === 200) {
+      toast.success(`${newCategory.name} Category Updated Successfully`);
+      getAllCategories().then(setCategories);
+      setDialogVisible(false);
+    } else {
+      toast.error(result.message);
+    }
+  } catch (error) {
+    toast.error(error.response?.data?.message || "An error occurred.");
+  }
+}
+
+
+
+
   const deleteCategory = (category) => {
-    console.log('Deleting category:', category);
-    // Implement your delete logic here
+    setSelectedCategory(category);
+    setConfirmDeleteDialogVisible(true);
   };
+
+
+  const handleDeleteCategory = async () => {
+    try {
+      const response = await axios.delete(`${API_URL}/api/v1/categories/delete-category?categoryId=${selectedCategory.id}`);
+      const result = await response.data;
+  
+      if (result.code === 200) {
+        toast.success(`${selectedCategory.name} Category Deleted Successfully`);
+        getAllCategories().then(setCategories);
+        setConfirmDeleteDialogVisible(false); // Close the delete confirmation dialog
+      } else {
+        toast.error(result.message);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "An error occurred.");
+    }
+  };
+
+  
+
+
+
   const imageBodyTemplate = (category) => {
     return <img src={`${category.image}`} alt={category.image} className="w-6rem shadow-2 border-round" style={{ marginTop: '5px', marginLeft: '25px' }} />;
   };
@@ -84,6 +147,9 @@ export default function CategoryPage() {
   };
 
   const getSeverity = (category) => {
+    if (category.isDeleted) {
+      return 'warning'; // Return warning if deleted
+    }
     switch (category.inventoryStatus) {
       case 'INSTOCK':
         return 'success';
@@ -99,8 +165,9 @@ export default function CategoryPage() {
   const actionBodyTemplate = (category) => {
     return (
       <div className="flex gap-2">
-        <Button icon="pi pi-pencil" className="p-button-warning" onClick={() => editCategory(category)} />
-        <Button icon="pi pi-trash" className="p-button-danger" onClick={() => deleteCategory(category)} />
+        <Button icon="pi pi-pencil" className="p-button-secondary" onClick={() => editCategory (category)} style={{borderRadius:'6px',height:'30px'}} />
+        <Button icon="pi pi-trash" className="p-button-danger" onClick={() => deleteCategory(category)} style={{borderRadius:'6px',height:'30px'}} outlined/>
+          {/* <DeleteButton onClick={() => deleteCategory(category)}/> */}
       </div>
     );
   };
@@ -251,7 +318,7 @@ export default function CategoryPage() {
         {/* Add Product Dialog */}
     <div className="card flex justify-content-center">
         <Dialog
-            header="Add New Category"
+            header={selectedCategory?'Edit Category':'Add New Category'}
             visible={dialogVisible} 
             onHide={() => setDialogVisible(false)} 
             style={{ width: '50vw',height:'430px', padding: '10px',marginLeft:'20px' }} 
@@ -261,7 +328,10 @@ export default function CategoryPage() {
     <div className="file-upload-container">
     <div className="file-upload" style={{marginTop:'-100px'}}>
         <input class="file-input" id="fileInput" type="file" accept='.jpg,.jpeg,.png,.webp' onChange={(e) => {(e.target.files[0]);
-        setNewCategory({ ...newCategory,image: e.target.files[0] })}} />
+            const file = e.target.files[0];
+        setNewCategory({ ...newCategory,image:file })}}
+      
+        />
         <label className="file-label" for="fileInput">
         <i className="upload-icon">📁</i>
         <p>Upload Your Category Images: Drag &amp; Drop or Click Here</p>
@@ -269,10 +339,7 @@ export default function CategoryPage() {
     </div>
     </div>
     
-
-
-
-    
+   
 
                 
 
@@ -322,8 +389,8 @@ export default function CategoryPage() {
         {/* Button container */}
 <div className="submit" style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
     <Button
-        label='Add'
-        onClick={handleAddCategory}
+        label={selectedCategory?'Update':'Add'}
+        onClick={selectedCategory?handleUpdateCategory:handleAddCategory}
         className='mr-8'
         style={{ width: '90px', height: 'auto' }}
     />
@@ -339,6 +406,46 @@ export default function CategoryPage() {
             </div>
         </Dialog>
     </div>  
+
+
+    {/* delete button modal */}
+    <Dialog
+  header="Are You Sure?"
+  visible={confirmDeleteDialogVisible}
+  onHide={() => setConfirmDeleteDialogVisible(false)}
+  style={{ width: '35vw', height: '150px', padding: '10px', marginLeft: '20px' }}
+  breakpoints={{ '960px': '70vw', '641px': '90vw' }}
+  className='ml-4'
+
+>
+  <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start' }}>
+    <div style={{ flex: '2' }} className='ml-4'>
+      This action cannot be undone
+    </div>
+  </div>
+  <div className="submit" style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '23px' }}>
+    <Button
+      label='Cancel'
+      className='mt-4'
+      severity="danger"
+      onClick={() => setConfirmDeleteDialogVisible(false)}
+      style={{ width: '90px', height: 'auto',borderRadius:'15px',marginLeft:'10px' }}
+      outlined
+    />
+    <Button
+      label='Delete'
+      className='mt-4'
+      severity="danger"
+      onClick={handleDeleteCategory} // Call delete function
+      style={{ width: '90px', height: 'auto',borderRadius:'10px',marginLeft:'10px' }}
+      // outlined
+    />
+  </div>
+</Dialog>
+{/* end delete */}
+
+
+
     </>
   );
 }
