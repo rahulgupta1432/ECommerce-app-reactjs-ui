@@ -24,16 +24,19 @@
         description: '',
         category: '',
         quantity:'',
-        imageList: []
+        imageList: [],
+        imageIndices:[]
     });
     const [formErrors, setFormErrors] = useState({});
+    const [selectedProduct, setselectedProduct]=useState(null);
+    const [confirmDeleteDialogVisible, setConfirmDeleteDialogVisible] = useState(false);
 
 
     // showAddProductModal,
     const getAllProducts = async (query = '') => {
         try {
             const response = await axios.get(`${API_URL}/api/v1/product/all-products?search=${query}`);
-            let result = await response.data;
+            const result = await response.data;
             if (result.code === 200) {
                 const filteredData = result.data.slice(0, -1);
                 return filteredData.map(product => ({
@@ -43,7 +46,8 @@
                     price: Math.floor(Math.random() * 100) + 10 ? Math.floor(Math.random() * 100) + 10 : 5.4,
                     description: product.description,
                     category:product.category.name,
-                    imageList: product.imageList.length > 0 ? product.imageList[0] : 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D'
+                    imageList: product.imageList.length > 0 ? product.imageList[0] : 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D',
+                    quantity:product.quantity
                 }));
             }
             throw new Error("Failed to fetch categories");
@@ -63,17 +67,14 @@
     };
 
     useEffect(()=>{
-    getAllProducts().then((data)=>{
-        setProducts(data)
+    getAllProducts()?.then((data)=>{
+        if (data && Array.isArray(data)) {
+            setProducts(data);
+        }
         
     })
     
     },[]);
-    // useEffect(()=>{
-    //     // <MultiSelectDropdown/>
-    //     fetchData()
-    // })
-
 
 
     const imageBodyTemplate = (product) => {
@@ -82,19 +83,22 @@
             <img 
                 src={`${product.imageList}`} 
                 alt={product.name} 
-                style={{ width: '100px', height: 'auto', margin: '0 10px' }} // Adjust the margin as needed
+                // style={{ width: '100px', height: 'auto', margin: '0 10px' }} // Adjust the margin as needed
+                style={{ 
+                    width: '100px', // Fixed width
+                    height: '100px', // Fixed height
+                    objectFit: 'cover', // Ensures the image covers the area without distortion
+                    margin: '0 10px' 
+                }} 
                 className="shadow-2 border-round"
             />
         </div>
     );
     };
 
-
-
-
     const header = (
     <div className="flex flex-wrap align-items-center justify-content-between gap-2">
-        <input type="text" placeholder="Search Categories" style={{
+        <input type="text" placeholder="Search Product" style={{
             border: 'none',
             display: 'flex',
             padding: '0.75rem 1.5rem',
@@ -221,6 +225,16 @@
     }
 
 
+    const actionBodyTemplate=(rowData)=>{
+        return (
+            <div className='flex gap-2'>
+                <Button icon="pi pi-pencil" className='p-button-secondary' style={{borderRadius:'6px',height:'30px'}}  onClick={() => editProduct(rowData)}/>
+                <Button icon="pi pi-trash" className='p-button-danger' style={{borderRadius:'6px',height:'30px'}} onClick={() => deleteProduct(rowData)}  />
+
+            </div>
+        )
+    }
+
     const truncateText = (text, length) => {
         if (text.length <= length) return text;
         return `${text.substring(0, length)}...`;
@@ -233,6 +247,90 @@
             </span>
         );
     };
+
+    // handle update
+
+    const editProduct = (product) => {
+        setNewProduct({
+            name: product.name,
+            price: product.price,
+            description: product.description,
+            category: product.category ? product.category._id : '', // Ensure category is checked
+            quantity: product.quantity,
+            imageList: product.imageList,
+        });
+        setselectedProduct(product);
+        setDialogVisible(true);
+    };
+    
+    const handleUpdateProduct=async()=>{
+        const formData=new FormData();
+        formData.append('name',newProduct.name);
+        formData.append('price',newProduct.price);
+        formData.append('description',newProduct.description);
+        formData.append('quantity',newProduct.quantity);
+        if (Array.isArray(newProduct.imageList) && newProduct.imageList.length > 0) {
+            newProduct.imageList.forEach(file => {
+                formData.append('imageList', file);
+            });
+        }
+    
+        //         Object.entries(newProduct).forEach(([key, value]) => {
+        //     if (key === 'imageList') {
+        //         value.forEach(file => formData.append('imageList', file));
+        //     } else {
+        //         formData.append(key, value);
+        //     }
+        // });
+
+        // newProduct.imageList.forEach((file)=>{
+        //     formData.append('imageList',file);
+        // })
+        try {
+            const response = await axios.put(`${API_URL}/api/v1/product/update-product?productId=${selectedProduct.id}`,formData,{
+                header:{
+                    'Content-Type':'multipart/form-data'
+                }
+            });
+            console.log(response); // Log the whole response for debugging
+      const result = await response?.data;  
+      if (result.code === 200) {
+        toast.success(`${selectedProduct.name} Product Updated Successfully`);
+        getAllProducts();
+        setTimeout(()=>{
+            setDialogVisible(false)
+        },1000)
+      } else {
+        throw new Error("Failed to fetch products");
+        // toast.error(result.message);
+      }
+        } catch (error) {
+            console.log("308__________________",error)
+            const errorMessage = error.response?.data?.message || error.message || "An error occurred.";
+            toast.error(errorMessage);
+        }
+    }
+    
+    const deleteProduct=(product)=>{
+        setselectedProduct(product);
+        setConfirmDeleteDialogVisible(true);
+    }
+
+    const handleDeleteProduct=async()=>{
+        try {
+            const response=await axios.delete(`${API_URL}/api/v1/product/delete-product?productId=${selectedProduct.id}`);
+            const result = await response?.data;
+            if (result.code === 200) {
+                toast.success(`${selectedProduct.name} Product Deleted Successfully`);
+                getAllProducts().then(setProducts);
+                setConfirmDeleteDialogVisible(false);
+              } else {
+                toast.error(result.message);
+              }
+        } catch (error) {
+            toast.error(error.response?.data?.message || "An error occurred.");
+        }
+    }
 
     return (
     <>
@@ -256,6 +354,7 @@
                     <Column field="category" header="Category" />
                     <Column header="Description" body={descriptionBodyTemplate} /> 
                                     <Column field="price" header="MRP" />
+                                    <Column field="" body={actionBodyTemplate} header="Action"/>
                                 </DataTable>
                             </div>
                         </div>
@@ -267,7 +366,7 @@
                 {/* Add Product Dialog */}
     <div className="card flex justify-content-center">
         <Dialog 
-            header="Add New Product" 
+            header={selectedProduct?'Edit Product':'Add Product'}
             visible={dialogVisible} 
             onHide={() => setDialogVisible(false)} 
             style={{ width: '50vw', padding: '10px',marginLeft:'20px' }} 
@@ -278,7 +377,7 @@
     <div className="file-upload">
         <input multiple class="file-input" id="fileInput" type="file" accept='.jpg,.jpeg,.png,.webp' onChange={(e) => {
         const files = Array.from(e.target.files);
-        setNewProduct({ ...newProduct, imageList: files })}} />
+        setNewProduct(prev => ({ ...prev, imageList: files })); }}/>
         <label className="file-label" for="fileInput">
         <i className="upload-icon">📁</i>
         <p>Upload Your Product Images: Drag &amp; Drop or Click Here</p>
@@ -289,7 +388,7 @@
 
 
     {/* img preview */}
-   <div className="image-previews" style={{ display: 'flex', flexWrap: 'wrap', marginTop: '10px' }}>
+   {/* <div className="image-previews" style={{ display: 'flex', flexWrap: 'wrap', marginTop: '10px' }}>
     {newProduct.imageList.length > 0 && newProduct.imageList.map((file, index) => (
         <div key={index} style={{ margin: '5px' }}>
             <img
@@ -297,9 +396,16 @@
                 alt={`preview-${index}`}
                 style={{ width: '100px', height: '100px', borderRadius: '5px', objectFit: 'cover' }} // Adjust width and height
             />
+            
         </div>
     ))}
-</div>
+</div> */}
+                    <div className="image-previews" style={{ display: 'flex', flexWrap: 'wrap', marginTop: '10px' }}>
+                        {Array.isArray(newProduct.imageList)&&newProduct.imageList.map((file, index) => (
+                            <img key={index} src={URL.createObjectURL(file)} alt={`preview-${index}`} style={{ width: '100px', height: '100px', borderRadius: '5px', objectFit: 'cover' }} />
+                        ))}
+                    </div>
+
 {formErrors.imageList && <small className="p-error">{formErrors.imageList}</small>}
     </div>
 
@@ -331,16 +437,17 @@
                     {/* <MultiSelectDropdown/> */}
                     <div className="field" style={{ marginBottom: '15px' }}>
   <label htmlFor="category" style={{ marginBottom: '5px', fontWeight: '600' }}>Product Categories</label>
-  <MultiSelectDropdown
+  <MultiSelectDropdown value={newProduct.category}
     onChange={(e) => setNewProduct({ ...newProduct, category: e.value })}
   />
 </div>
 {formErrors.category && <small className="p-error">{formErrors.category}</small>}
 
+
         <div className='submit' style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
                         <Button 
-                            label='Add' 
-                            onClick={handleAddProduct} 
+                            label={selectedProduct?'Update':'Add'} 
+                            onClick={selectedProduct?handleUpdateProduct:handleAddProduct} 
                             className='mr-8' 
                             style={{ width: '90px', height: 'auto' }} 
                         />
@@ -355,6 +462,46 @@
             </div>
         </Dialog>
     </div>  
+
+
+
+
+{/* delete button modal */}
+<Dialog
+  header="Are You Sure?"
+  visible={confirmDeleteDialogVisible}
+  onHide={() => setConfirmDeleteDialogVisible(false)}
+  style={{ width: '35vw', height: '150px', padding: '10px', marginLeft: '20px' }}
+  breakpoints={{ '960px': '70vw', '641px': '90vw' }}
+  className='ml-4'
+
+>
+  <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start' }}>
+    <div style={{ flex: '2' }} className='ml-4'>
+      This action cannot be undone
+    </div>
+  </div>
+  <div className="submit" style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '23px' }}>
+    <Button
+      label='Cancel'
+      className='mt-4'
+      severity="danger"
+      onClick={() => setConfirmDeleteDialogVisible(false)}
+      style={{ width: '90px', height: 'auto',borderRadius:'15px',marginLeft:'10px' }}
+      outlined
+    />
+    <Button
+      label='Delete'
+      className='mt-4'
+      severity="danger"
+      onClick={handleDeleteProduct} // Call delete function
+      style={{ width: '90px', height: 'auto',borderRadius:'10px',marginLeft:'10px' }}
+      // outlined
+    />
+  </div>
+</Dialog>
+{/* end delete */}
+
     </>
     )
     }
