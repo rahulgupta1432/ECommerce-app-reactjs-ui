@@ -1,0 +1,134 @@
+.heart-button {
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+	border: none;
+	background: none;
+	cursor: pointer;
+  }
+  
+  .heart-button:focus {
+	outline: none;
+  }
+  
+  .heart-button.is-active svg {
+	fill: #191919;
+	animation: beat cubic-bezier(0.04, 0.4, 0.5, 0.95) 450ms forwards 1;
+  }
+  
+  @keyframes beat {
+	30% {
+	  opacity: 1;
+	  transform: scale(1.4);
+	}
+	50% {
+	  transform: scale(0.8);
+	}
+	100% {
+	  transform: scale(1);
+	}
+  }
+
+  .card {
+	height: 80vh;
+	overflow-y: auto;
+	margin-left:10px;
+  }
+  
+
+
+  
+/* 
+  .flex {
+	display: flex;
+  }
+  
+  .flex-column {
+	flex-direction: column;
+  }
+  
+  .bg-white {
+	background-color: white;
+  }
+  
+  .border-round {
+	border-radius: 8px;
+  }
+  
+  .shadow-2 {
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .p-inputtext {
+	padding: 0.5rem;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+  }
+   */
+
+
+
+
+   .flex {
+	display: flex;
+  }
+  
+  .flex-column {
+	flex-direction: column;
+  }
+  
+  .bg-white {
+	background-color: #ffffff;
+  }
+  
+  .border-round {
+	border-radius: 8px;
+  }
+  
+  .shadow-2 {
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .p-inputtext {
+	padding: 0.5rem;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	transition: border-color 0.3s;
+  }
+  
+  .p-inputtext:focus {
+	border-color: #FF6F61;
+	outline: none;
+  }
+  
+  .cursor-pointer {
+	cursor: pointer;
+  }
+  
+  button {
+	transition: background-color 0.3s, border-color 0.3s;
+  }
+  
+  button:hover {
+	/* background-color: #FF6F61;
+	border-color: #FF6F61; */
+  }
+  
+  h4 {
+	color: #333;
+  }
+  
+  h3 {
+	color: #FF6F61;
+  }
+  
+
+
+
+
+  /* star */
+
+  .pi-star:hover {
+	color: #f39c12; /* Change color on hover */
+  }
+  
