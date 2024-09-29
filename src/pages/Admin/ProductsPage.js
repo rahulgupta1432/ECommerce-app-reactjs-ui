@@ -32,10 +32,10 @@
     const [confirmDeleteDialogVisible, setConfirmDeleteDialogVisible] = useState(false);
 
 
-    // showAddProductModal,
     const getAllProducts = async (query = '') => {
         try {
-            const response = await axios.get(`${API_URL}/api/v1/product/all-products?search=${query}`);
+            const product='Admin';
+            const response = await axios.get(`${API_URL}/api/v1/product/all-products?search=${query}&type=${product}`);
             const result = await response.data;
             if (result.code === 200) {
                 const filteredData = result.data.slice(0, -1);

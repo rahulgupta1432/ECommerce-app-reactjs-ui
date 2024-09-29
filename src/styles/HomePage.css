@@ -35,40 +35,6 @@
 	margin-left:10px;
   }
   
-
-
-  
-/* 
-  .flex {
-	display: flex;
-  }
-  
-  .flex-column {
-	flex-direction: column;
-  }
-  
-  .bg-white {
-	background-color: white;
-  }
-  
-  .border-round {
-	border-radius: 8px;
-  }
-  
-  .shadow-2 {
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .p-inputtext {
-	padding: 0.5rem;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-  }
-   */
-
-
-
-
    .flex {
 	display: flex;
   }
@@ -132,3 +98,17 @@
 	color: #f39c12; /* Change color on hover */
   }
   
+
+
+  .product-image {
+    width: 220px; /* Set your desired width */
+    height: 320px; /* Set your desired height */
+    object-fit: cover; 
+}
+
+.product-card {
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
