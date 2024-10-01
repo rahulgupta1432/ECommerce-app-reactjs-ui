@@ -266,6 +266,7 @@ import { Tag } from 'primereact/tag';
 import { classNames } from 'primereact/utils';
 import { Dialog } from 'primereact/dialog';
 import Header from '../components/Layout/Header';
+import { useAuth } from '../context/Auth';
 
 function HomePage() {
   const [products, setProducts] = useState([]);
@@ -283,6 +284,9 @@ function HomePage() {
   )
   const [star,setStar]=useState(0);
   const starValues = [1, 2, 3, 4, 5];
+  const [searchQuery,setSearchQuery]=useState('');
+  const [auth] = useAuth();
+  const [isWishlisted,setIsWishlisted]=useState({});
 
 
   // categories= ['Electronics', 'Fashion', 'Home & Kitchen', 'Books', 'Toys'];
@@ -291,12 +295,19 @@ function HomePage() {
     // Clear filters logic here
   };
 
+  
   const getAllProducts = async () => {
-    try {
+        try {
       const product='User';
-      const { data } = await axios.get(`${API_URL}/api/v1/product/all-products?type=${product}`);
-      setProducts(data.data.slice(0, -1)); // Remove the last object which is metadata
+      const { data } = await axios.get(`${API_URL}/api/v1/product/all-products?type=${product}?userId=${auth.user._id}`);
+      if(Array.isArray(data?.data)){
+        setProducts(data.data.slice(0, -1));
+      }else{
+        setProducts([])
+        toast.error("Unexpected data format received.");
+      }
     } catch (error) {
+      // toast.error(error.response?.data?.message);
       toast.error(error.response?.data?.message);
     }
   };
@@ -307,21 +318,88 @@ function HomePage() {
     try {
       let response=await axios.get(`${API_URL}/api/v1/categories/all-category`);
       // setCategories(data.data);
-      let result =response?.data;
+      let result =await response?.data;
       if(result.code==200){
         const filterData=result?.data?.slice(0,-1);
-        console.log(filterData);
-        const categoriesData = filterData.map((category) => ({
+        const categoriesData = await filterData.map((category) => ({
           id: category._id, // Include _id
           name: category.name // Keep the name
         }));
-  
         setCategories(categoriesData);
         return categoriesData;
       }
       throw new Error("Failed to fetch categories");
     } catch (error) {
-      toast.error(error.response.data.message)
+      toast.error(error.response?.data?.message)
+    }
+  }
+
+
+
+  // fillter API
+  const getProductFilters=async(query='')=>{
+    try {
+      const requestData={
+        checked:checked,
+        radioMin:priceRange.min,
+        radioMax:priceRange.max,
+        search:query
+      }
+      if(auth?.user?._id){
+        requestData.userId=auth?.user?._id
+      }
+
+      const response=await axios.post(`${API_URL}/api/v1/product/product-filters`,requestData);
+      const resp=response?.data;
+      const wishlistedProduct={};
+      if(resp.code===200){
+        setProducts(resp?.data.slice(0, -1));
+        resp?.data.slice(0,-1).forEach((product)=>{
+          wishlistedProduct[product._id]=product.isWishListed
+        });
+        setIsWishlisted(wishlistedProduct);
+      }
+      // toast.success('Filter Product Fetch Succesfully');
+      throw new Error("Failed to fetch products");
+    } catch (error) {
+      toast.error(error.response?.data?.message)
+    }
+  }
+
+
+  // wishlist API
+  const handleToggleWishlist=async(productId)=>{
+    if(!auth.user){
+      toast.warning('Please Login First');
+    }else{
+
+      setIsWishlisted((prev) => ({
+        ...prev,
+        [productId]: !prev[productId], // Immediately State Update
+      }));
+    }
+      
+  
+    try {
+      
+      const response=await axios.get(`${API_URL}/api/v1/product/toggle-product-wishlist?userId=${auth.user._id}&productId=${productId}`);
+      const resp=await response?.data;
+      if(resp?.code===200){
+        if(resp?.message=="Wishlist item added successfully."){
+          toast.success(resp?.message);
+        }else if(resp?.message==='Wishlist item removed successfully.'){
+          toast.error(resp?.message);
+        }
+        setWishlist(
+          {
+            ...wishlist,
+          }
+        )
+      }else{
+        toast.error(resp?.message);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message);
     }
   }
 
@@ -342,18 +420,67 @@ function HomePage() {
   const handleRating=(value)=>{
     setStar(Number(value));
   }
-  const toggleWishlist = (productId) => {
+
+  const handleSearch=async(e)=>{
+    const query=e.target.value;
+      setSearchQuery(query);
+    if(checked.length===0){
+      toast.error('Please Select at least one Categories.');
+    }else{
+      // const data=await getProductFilters(query);
+      // setProducts(data);
+      await getProductFilters(query);
+    }
+  }
+
+  // const toggleWishlist = (productId) => {
+  //   handleToggleWishlist(productId);
+  //   setWishlist((prev) => ({
+  //     ...prev,
+  //     [productId]: !prev[productId],
+  //   }));
+  // };
+  const toggleWishlist = async (productId) => {
+    setWishlist((prev) => {
+      const updatedWishlist = {
+        ...prev,
+        [productId]: !prev[productId],
+      };
+      handleToggleWishlist(productId); // Pass the productId if needed
+      return updatedWishlist;
+    });
+
+    // Update in the local state
     setWishlist((prev) => ({
       ...prev,
-      [productId]: !prev[productId],
+      [productId]:!prev[productId]
     }));
   };
+  
+  
 
   useEffect(() => {
     getAllCategories();
-    getAllProducts();
+    if(auth.user){
+      getProductFilters();
+    }else{
+      getAllProducts();
+    }
     setShowModal(true);
-  }, []);
+    // getProductFilters();
+    // setShowModal(true);
+    // if(!checked.length||!priceRange.min.length||!priceRange.max.length){
+    //   getAllProducts();
+    // }
+  // }, [checked,priceRange.max]);
+
+  },[auth.user]);
+
+  useEffect(()=>{
+    if(checked.length||priceRange.min||priceRange.max){
+      getProductFilters();
+    }
+  },[checked,priceRange]);
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -380,8 +507,8 @@ function HomePage() {
             src={hoveredImages[product._id] && product.imageList[1] ? product.imageList[1] : product.imageList[0]} 
             alt={product.name} 
           />
-          <Button 
-            icon={<HeartButton isActive={wishlist[product._id]} />} 
+          <Button
+            icon={<HeartButton isActive={isWishlisted[product._id]}/>}
             className="p-button-rounded p-button-secondary absolute" 
             onClick={() => toggleWishlist(product._id)} 
             style={{ 
@@ -464,11 +591,29 @@ function HomePage() {
   };
 
   const listTemplate = (products, layout) => (
+      //  {products?.map((product, index) => itemTemplate(product, layout, index))} 
     <div className="grid grid-nogutter">
-      {products.map((product, index) => itemTemplate(product, layout, index))}
+      {
+        products.length>0?(
+          products?.map((product, index) => itemTemplate(product, layout, index))
+        ):(
+          <div>No products found.</div>
+        )
+      }
     </div>
   );
-
+  // const listTemplate = (products, layout) => {
+  //   if (!Array.isArray(products) || products.length === 0) {
+  //     return <div>No products found.</div>; // Handle the case when products is empty
+  //   }
+  
+  //   return (
+  //     <div className="grid grid-nogutter">
+  //       {products.map((product, index) => itemTemplate(product, layout, index))}
+  //     </div>
+  //   );
+  // };
+  
   const header = () => (
     <div className="flex justify-content-end">
       <DataViewLayoutOptions layout={layout} onChange={(e) => setLayout(e.value)} />
@@ -512,12 +657,15 @@ categories.map((category) => (
 
 
 
-          <h4 className="font-medium mt-3 mb-2">Company</h4>
+          <h4 className="font-medium mt-3 mb-2">Brand</h4>
           <input 
             type="text" 
-            placeholder="Enter company name" 
+            placeholder="Enter Brand name" 
             className="p-inputtext p-component w-full mb-2" 
+            value={searchQuery}
+            onChange={handleSearch}
           />
+          
 
           <h4 className="font-medium mt-3 mb-2">Price Range</h4>
           <input 
@@ -580,6 +728,7 @@ categories.map((category) => (
           {JSON.stringify(checked,null,4)}
           {JSON.stringify(priceRange,null,4)}
           {JSON.stringify(star,null,4)}
+          {JSON.stringify(wishlist,null,4)}
           <DataView value={products} listTemplate={listTemplate} layout={layout} header={header()} />
         </div>
       </div>

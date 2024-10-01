@@ -38,9 +38,9 @@ export default function CategoryPage() {
   const getAllCategories = async (query = '') => {
     try {
       const response = await axios.get(`${API_URL}/api/v1/categories/all-category?search=${query}`);
-      let result = await response.data;
+      let result = await response?.data;
       if (result.code === 200) {
-        const filteredData = result.data.slice(0, -1);
+        const filteredData = result?.data?.slice(0, -1);
         return filteredData.map(category => ({
           id: category._id,
           name: category.name,
@@ -53,7 +53,7 @@ export default function CategoryPage() {
       }
       throw new Error("Failed to fetch categories");
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message);
     }
   };
 

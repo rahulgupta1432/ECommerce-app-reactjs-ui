@@ -36,7 +36,7 @@ const Login = () => {
                 localStorage.setItem("auth",JSON.stringify(res))
                 // localStorage.setItem("profile",JSON.stringify(res));
                 const redirectPath = location.state?.from || "/"; // Redirect to the previous page or home
-
+                
                 setTimeout(()=>{
                     // navigate(location.state||"/")
                     navigate(redirectPath);
