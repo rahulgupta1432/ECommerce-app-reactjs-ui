@@ -267,6 +267,10 @@ import { classNames } from 'primereact/utils';
 import { Dialog } from 'primereact/dialog';
 import Header from '../components/Layout/Header';
 import { useAuth } from '../context/Auth';
+import { Paginator } from 'primereact/paginator';
+import { Dropdown } from 'primereact/dropdown';
+        
+
 
 function HomePage() {
   const [products, setProducts] = useState([]);
@@ -287,12 +291,23 @@ function HomePage() {
   const [searchQuery,setSearchQuery]=useState('');
   const [auth] = useAuth();
   const [isWishlisted,setIsWishlisted]=useState({});
+  const [firstPage,setFirstPage]=useState(0);
+  const [rows,setRows]=useState(10);
+  const [limit,setLimit]=useState(null)
 
 
   // categories= ['Electronics', 'Fashion', 'Home & Kitchen', 'Books', 'Toys'];
   
   const clearFilters = () => {
     // Clear filters logic here
+    setChecked([]);
+    setPriceRange({
+      min: 0,
+      max: 100000
+    });
+    setStar(0);
+    setSearchQuery('');
+    setProducts([]);
   };
 
   
@@ -417,6 +432,7 @@ function HomePage() {
     setPriceRange(value);
   }
 
+
   const handleRating=(value)=>{
     setStar(Number(value));
   }
@@ -457,7 +473,13 @@ function HomePage() {
     }));
   };
   
-  
+  // pagination
+  const onPageChange = (event) => {
+  setFirstPage(event.first);
+    setRows(event.rows);
+};
+
+
 
   useEffect(() => {
     getAllCategories();
@@ -532,7 +554,7 @@ function HomePage() {
           <Rating value={5} readOnly cancel={false} />
         </div>
         <div className="flex align-items-center justify-content-between">
-          <span className="text-2xl font-semibold">${product.price}</span>
+          <span className="text-2xl font-semibold">₹{product.price}</span>
         </div>
       </div>
     </div>
@@ -729,7 +751,27 @@ categories.map((category) => (
           {JSON.stringify(priceRange,null,4)}
           {JSON.stringify(star,null,4)}
           {JSON.stringify(wishlist,null,4)}
+          
+          {/* rowsPerPageOptions={[10, 20, 30]} */}
+          <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-start',marginBottom:'15px',marginTop:'-60px' }}
+          >
+          <Dropdown value={limit} 
+          onChange={(e)=>{setLimit(e.value);}}
+          options={[10,20,30,50,100]}
+          optionLabel="Limit"
+          placeholder="Select Limit"
+          className="w-full md:w-14rem ml-8"
+          style={{ width: '100%', maxWidth: '14rem', marginLeft: '8px' }}
+          />
+          </div>
+
           <DataView value={products} listTemplate={listTemplate} layout={layout} header={header()} />
+          <div className='mt-4 pt-6'>
+          {/* Hey */}
+          <Paginator first={firstPage} rows={rows} totalRecords={120} onChange={onPageChange} />
+          {/* rowsPerPageOptions={[10, 20, 30]} */}
+        
+          </div>
         </div>
       </div>
     </>

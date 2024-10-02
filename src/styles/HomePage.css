@@ -102,6 +102,7 @@
 
   .product-image {
     width: 220px; /* Set your desired width */
+
     height: 320px; /* Set your desired height */
     object-fit: cover; 
 }
@@ -111,4 +112,3 @@
   display: flex;
   flex-direction: column;
 }
-
