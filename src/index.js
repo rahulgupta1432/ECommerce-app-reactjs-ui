@@ -5,9 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router-dom"
 import { AuthProvider } from './context/Auth';  
-// import { ClerkProvider } from '@clerk/clerk-react';
+import { SearchProvider } from './context/Search';
 
-// const PUBLISHABLE_KEY = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY;
 
 
 
@@ -15,17 +14,12 @@ import { AuthProvider } from './context/Auth';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <AuthProvider>
+    <SearchProvider>
   <BrowserRouter>
-  {/* <React.StrictMode> */}
-  {/* <ClerkProvider publishableKey={PUBLISHABLE_KEY}> */}
     <App />
-    {/* </ClerkProvider> */}
-  {/* </React.StrictMode> */}
   </BrowserRouter>
+  </SearchProvider>
   </AuthProvider>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

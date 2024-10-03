@@ -2,7 +2,6 @@ import React from 'react';
 import Header from '../components/Layout/Header'; // Adjust the path as necessary
 import '../styles/Pagenotfound.css';
 import Footer from '../components/Layout/Footer';
-{/* <h3 className="h2">Looks like you're lost</h3> */}
 
 const Pagenotfound = () => {
   return (
