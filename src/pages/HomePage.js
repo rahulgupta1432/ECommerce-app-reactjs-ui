@@ -267,7 +267,6 @@ import { classNames } from 'primereact/utils';
 import { Dialog } from 'primereact/dialog';
 import Header from '../components/Layout/Header';
 import { useAuth } from '../context/Auth';
-import { Paginator } from 'primereact/paginator';
 import { Dropdown } from 'primereact/dropdown';
         
 
@@ -291,11 +290,8 @@ function HomePage() {
   const [searchQuery,setSearchQuery]=useState('');
   const [auth] = useAuth();
   const [isWishlisted,setIsWishlisted]=useState({});
-  const [firstPage,setFirstPage]=useState(0);
-  const [rows,setRows]=useState(10);
-  const [limit,setLimit]=useState(null)
-
-
+  const [limit,setLimit]=useState(null);
+  
   // categories= ['Electronics', 'Fashion', 'Home & Kitchen', 'Books', 'Toys'];
   
   const clearFilters = () => {
@@ -352,18 +348,20 @@ function HomePage() {
 
 
   // fillter API
-  const getProductFilters=async(query='')=>{
+  const getProductFilters=async(query='',currentLimit)=>{
     try {
       const requestData={
         checked:checked,
         radioMin:priceRange.min,
         radioMax:priceRange.max,
-        search:query
+        search:query,
       }
       if(auth?.user?._id){
         requestData.userId=auth?.user?._id
       }
-
+      if (currentLimit) {
+        requestData.limit = currentLimit;
+      }
       const response=await axios.post(`${API_URL}/api/v1/product/product-filters`,requestData);
       const resp=response?.data;
       const wishlistedProduct={};
@@ -373,6 +371,10 @@ function HomePage() {
           wishlistedProduct[product._id]=product.isWishListed
         });
         setIsWishlisted(wishlistedProduct);
+        console.log(resp?.data[resp?.data.length-1].limit);
+        // const pagination = resp.data[resp.data.length - 1]
+        // setTotalRecords(pagination.pages * pagination.limit);
+        return resp?.data.slice(0, -1);
       }
       // toast.success('Filter Product Fetch Succesfully');
       throw new Error("Failed to fetch products");
@@ -418,6 +420,7 @@ function HomePage() {
     }
   }
 
+
   const handleFilter=(value,id)=>{
     let all=[...checked]
     if(value){
@@ -443,19 +446,15 @@ function HomePage() {
     if(checked.length===0){
       toast.error('Please Select at least one Categories.');
     }else{
-      // const data=await getProductFilters(query);
-      // setProducts(data);
       await getProductFilters(query);
     }
   }
 
-  // const toggleWishlist = (productId) => {
-  //   handleToggleWishlist(productId);
-  //   setWishlist((prev) => ({
-  //     ...prev,
-  //     [productId]: !prev[productId],
-  //   }));
-  // };
+  const onChangeLimit=async(e)=>{
+    const newLimit = e.target.value;
+    setLimit(newLimit);
+    await getProductFilters('',newLimit);
+  }
   const toggleWishlist = async (productId) => {
     setWishlist((prev) => {
       const updatedWishlist = {
@@ -472,12 +471,6 @@ function HomePage() {
       [productId]:!prev[productId]
     }));
   };
-  
-  // pagination
-  const onPageChange = (event) => {
-  setFirstPage(event.first);
-    setRows(event.rows);
-};
 
 
 
@@ -502,6 +495,7 @@ function HomePage() {
     if(checked.length||priceRange.min||priceRange.max){
       getProductFilters();
     }
+
   },[checked,priceRange]);
 
   const handleCloseModal = () => {
@@ -751,12 +745,10 @@ categories.map((category) => (
           {JSON.stringify(priceRange,null,4)}
           {JSON.stringify(star,null,4)}
           {JSON.stringify(wishlist,null,4)}
-          
-          {/* rowsPerPageOptions={[10, 20, 30]} */}
           <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-start',marginBottom:'15px',marginTop:'-60px' }}
           >
-          <Dropdown value={limit} 
-          onChange={(e)=>{setLimit(e.value);}}
+          <Dropdown value={limit}
+          onChange={onChangeLimit}
           options={[10,20,30,50,100]}
           optionLabel="Limit"
           placeholder="Select Limit"
@@ -767,8 +759,12 @@ categories.map((category) => (
 
           <DataView value={products} listTemplate={listTemplate} layout={layout} header={header()} />
           <div className='mt-4 pt-6'>
-          {/* Hey */}
-          <Paginator first={firstPage} rows={rows} totalRecords={120} onChange={onPageChange} />
+
+          {/* <Paginator first={(currentPage-1)*rows}
+          rows={rows}
+          totalRecords={totalRecords} 
+          onChange={onPageChange} 
+          /> */}
           {/* rowsPerPageOptions={[10, 20, 30]} */}
         
           </div>
