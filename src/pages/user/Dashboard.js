@@ -5,11 +5,7 @@ import { useAuth } from '../../context/Auth';
 
 const Dashboard = () => {
   const [auth] = useAuth();
-  return (
-    // <>
-    // Hello Dashboard Page
-    // </>
-    
+  return (    
     <Layout title={'Dashboard - Fusion-Store'}>
       <div className='container-fluid m-3 p-3'>
         <div className='row'>
