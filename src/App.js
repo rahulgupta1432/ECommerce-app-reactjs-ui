@@ -23,6 +23,7 @@ import AdminMenu from './components/Layout/AdminMenu';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from './pages/Search';
+import ProductDetails from './pages/ProductDetails';
 // import TemplateDemo from './pages/Admin/TemplateDemo';
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
     <Routes>
       <Route path='/' element={<HomePage/>}/>
       <Route path='/search' element={<Search/>}/>
+      <Route path='/product/:slug/prd/:id' element={<ProductDetails/>}/>
       
             {/* Nested private routes */}
       <Route path='/dashboard' element={<PrivateRoute />}>

@@ -180,7 +180,6 @@ function HomePage() {
       }
       const response=await axios.get(`${API_URL}/api/v1/product/search-product?${requestQuery.toString()}`)
       const resp=await response?.data;
-      console.log(navigate)
       // const searchQuery = encodeURIComponent(query).replace(/%20/g, '+');
       // navigate(`/search/?q=${searchQuery}`);
       if(resp?.code===200){
@@ -295,6 +294,11 @@ function HomePage() {
         className="p-4 border-1 surface-border surface-card border-round" 
         onMouseEnter={() => toggleHover(product._id)} 
         onMouseLeave={() => toggleHover(product._id)}
+        onClick={()=>{
+          // navigate(`/product/${product.slug}`);
+          const query=encodeURIComponent(product.slug).replace(/%20/g,'+')
+          navigate(`/product/${query}/prd/${product._id}`)
+        }}
       >
         <div className="relative">
           <img 
