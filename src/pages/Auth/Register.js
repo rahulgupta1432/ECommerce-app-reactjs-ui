@@ -38,7 +38,7 @@ const Register = ({setContactMethod,setContactNumber }) => {
         toast.error(response.message)
       }
     } catch (error) {
-      toast.error(error.response.data.message)
+      toast.error(error.response?.data?.message);
     }
   }
   const handleOpenPassword=(e)=>{
@@ -47,7 +47,7 @@ const Register = ({setContactMethod,setContactNumber }) => {
   }
   return (
     <>
-      <Header title={"ECommerce App - Registeration"} />
+      <Header title={"Fusion-Store - Registeration"} />
       {/* <section className='register-section'> */}
       <div className='register-section'>
         <div className='register-intro'>

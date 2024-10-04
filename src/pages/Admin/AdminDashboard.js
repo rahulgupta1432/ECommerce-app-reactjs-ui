@@ -8,7 +8,7 @@ const AdminDashboard = () => {
   const [auth] = useAuth();
   
   return (
-    <Layout title={"ECommerce App - Admin Dashboard"}>
+    <Layout title={"Fusion-Store - Admin Dashboard"}>
       <div className='container-fluid m-3 p-3'>
         <div className='row'>
           <div className='col-md-3'>

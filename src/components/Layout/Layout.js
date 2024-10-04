@@ -23,7 +23,7 @@ function Layout({title,description,keywords,author,children}) {
 }
 
 Layout.defaultProps={
-  title:'ECommerce App - Buy now',
+  title:'Fusion-Store - Buy now',
   description:'Mern Stack ECommerce Project',
   keywords:'mern,react,node,mongodb,restapi',
   author:'Rahul Gupta'

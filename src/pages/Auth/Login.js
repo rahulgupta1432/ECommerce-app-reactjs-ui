@@ -45,12 +45,12 @@ const Login = () => {
                 toast.error(response.message)
             }
         } catch (error) {
-            toast.error(error.response.data.message)
+            toast.error(error.response?.data?.message);
         }
       }
     return (
         <>
-          <Header title={"ECommerce App - Login Now"} />
+          <Header title={"Fusion-Store - Login Now"} />
           {/* <section className='register-section'> */}
           <div className='register-section'>
             <div className='register-intro'>

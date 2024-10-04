@@ -5,6 +5,9 @@ import { useAuth } from '../../context/Auth';
 import { toast } from 'react-toastify';
 import { IoCartOutline } from "react-icons/io5";
 import SearchInput from '../Form/SearchInput';
+import { FaShopify } from "react-icons/fa";
+
+
 
 
 export const handleLogout = async (auth, setAuth) => {
@@ -49,13 +52,25 @@ function Header({ title, description, keywords, author }) {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-            {/* <Link to="/" className="navbar-brand">🛒 ECommerce App</Link> */}
-            <Link to="/" className="navbar-brand" style={{ fontSize: '24px', color: '#333', display: 'flex', alignItems: 'center' }}>
-  <span style={{ marginRight: '8px' }}>🛒</span>
-  {/* E- */}
-  {/* -Commerce */}
-  UrbanCart
+            {/* <Link to="/" className="navbar-brand">🛒 Fusion-Store</Link> */}
+            <Link to="/" className="navbar-brand" style={{ display: 'flex', alignItems: 'center', fontSize: '24px', color: '#333' }}>
+  <div className='mt-1' style={{ color: '#83B271', fontSize: '25px' }}>
+    <FaShopify />
+  </div>
+  <span style={{ 
+  fontSize: '20px', 
+  color: '#008080', 
+  fontWeight: 'bold', 
+  textTransform: 'uppercase', 
+  marginLeft: '8px', 
+  marginTop: '8px', 
+  fontFamily: 'Georgia, serif'
+}}>
+  Fusion-Store    
+</span>
+
 </Link>
+
 
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0" style={{ display: 'flex', alignItems: 'center' }}>
             {/* {location.pathname !== "/"&& <SearchInput/>} */}
@@ -105,7 +120,7 @@ function Header({ title, description, keywords, author }) {
 }
 
 Header.defaultProps = {
-  title: 'ECommerce App - Buy now',
+  title: 'Fusion-Store - Buy now',
   description: 'Mern Stack ECommerce Project',
   keywords: 'mern,react,node,mongodb,restapi',
   author: 'Rahul Gupta'

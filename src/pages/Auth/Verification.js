@@ -34,7 +34,7 @@ const Verification = ({contactMethod,getContactNumber }) => {
           toast.error(response.message);
         }
       } catch (error) {
-        toast.error(error.response.data.message)
+        toast.error(error.response?.data?.message);
       }
 }
 
@@ -49,13 +49,13 @@ const handleResentOtp=async()=>{
       toast.error(response.message);
     }
   } catch (error) {
-    toast.error(error.response.data.message)
+    toast.error(error.response?.data?.message);
   }
 }
   
   return (
     <>
-      <Header title={"ECommerce App - Mobile Verification"} />
+      <Header title={"Fusion-Store - Mobile Verification"} />
       <div className='register-section'>
         <div className='register-intro'>
           <h2 className='register-title'>OTP</h2>

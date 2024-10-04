@@ -5,7 +5,7 @@ function Policy() {
   return (
 <>
     {/* <Layout> */}
-      <Header title={'Privacy Policy -  ECommerce App'}/>
+      <Header title={'Privacy Policy -  Fusion-Store'}/>
       <h1>Policy</h1>
     {/* </Layout> */}
     </>

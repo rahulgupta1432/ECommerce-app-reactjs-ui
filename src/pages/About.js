@@ -7,7 +7,7 @@ import Header from '../components/Layout/Header';
 function About() {
   return (
     <>
-    <Header title={'About us -  ECommerce App'}/>
+    <Header title={'About us -  Fusion-Store'}/>
     <section>
       <div className="image">
         {/* image here */}

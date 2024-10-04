@@ -52,7 +52,7 @@ const ResetPassword = () => {
   }
   return (
     <>
-    <Header title={"ECommerce App - Reset Password"}/>
+    <Header title={"Fusion-Store - Reset Password"}/>
 
     <div className='register-section'>
         <div className='register-intro'>
