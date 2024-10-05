@@ -237,7 +237,7 @@ const ProductDetails = () => {
                 display:'flex',
                 gap:'5px',
                 alignItems:'center',
-                marginLeft:'450px',
+                marginLeft:'500px',
                 marginTop:'-20px',
 
             }}>
@@ -318,7 +318,7 @@ const ProductDetails = () => {
                 </div>
             </div>
                     <h3 className='related-name'>Related Products</h3>
-            <div className="related-products">
+            <div className="related-products" style={{marginTop:'80px'}}>
                     {setRelatedProducts}
                     <DataView
                         value={relatedProducts} 

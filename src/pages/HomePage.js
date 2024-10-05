@@ -297,7 +297,9 @@ function HomePage() {
         onClick={()=>{
           // navigate(`/product/${product.slug}`);
           const query=encodeURIComponent(product.slug).replace(/%20/g,'+')
-          navigate(`/product/${query}/prd/${product._id}`)
+          setTimeout(()=>{
+            navigate(`/product/${query}/prd/${product._id}`)
+          },1000)
         }}
       >
         <div className="relative">
