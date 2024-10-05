@@ -10,6 +10,10 @@ import '../styles/ProductDetails.css';
 import { Carousel } from 'primereact/carousel'
 import { DataView } from 'primereact/dataview';
 import { Rating } from 'primereact/rating'
+import { Dropdown } from 'primereact/dropdown'
+import { FiMail, FiShare } from "react-icons/fi";
+import { useAuth } from '../context/Auth'
+import { Dialog } from 'primereact/dialog'
 
 
 const ProductDetails = () => {
@@ -18,14 +22,34 @@ const ProductDetails = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     const smallImgs=useRef([]);
     const [relatedProducts, setRelatedProducts] = useState([]);
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
+    const [selectSize,setSelectedSize]=useState(null);
+    const size=[
+        {label:"S",value:"S"},
+        {label:"M",value:"M"},
+        {label:"L",value:"L"},
+        {label:"XL",value:"XL"},
+        {label:"XXL",value:"XXL"},
+    ]
+    const [buttonText,setButtonText]=useState('Add to Bag');
+    const [buttonStyle, setButtonStyle] = useState({  backgroundColor: '#17696a',
+        borderRadius:'4px',
+        padding:'10px 37px',
+        border:'none',
+        color:'white',
+        fontWeight:'600',
+        transition: 'background-color ease-in 0.4s'
+     });
+     const [auth]=useAuth();
+     const [visible, setVisible] = useState(false);
+
 
     const handleGetProductDetails=async()=>{
         try {
             const response=await axios.get(`${API_URL}/api/v1/product/get-details?productId=${params.id}`);
             const resp=response.data;
             if(resp?.code===200){
-                toast.success("Product Get Succesfully");
+                // toast.success("Product Get Succesfully");
                 setProduct(resp?.data?.slice(0,-1));
                 setRelatedProducts(resp?.data[1].similarProducts);
             }else{
@@ -111,7 +135,44 @@ const ProductDetails = () => {
         </div>
     );
     
+    const originalPrice = product[0]?.price; // Get the original price from API
+    const inflatedPrice = originalPrice + (Math.random() < 0.5 ? 299 : 499); // Add either 299 or 499
+    const handleSizeChange = (e) => {
+        setSelectedSize(e.value);
+        setButtonText("Notify Me");
+        // setButtonStyle({ backgroundColor: 'black', color: 'white' });
+        setButtonStyle((prev) => ({
+            ...prev,
+            backgroundColor: '#ff4242', // Change to desired color
+            // backgroundColor: '#2D2D2D',
+        }));
+
+    };
     
+    const handleMouseEnter = () => {
+        setButtonStyle((prev) => ({
+            ...prev,
+            backgroundColor: '#ff4242',
+        }));
+    };
+
+    const handleMouseLeave = () => {
+        setButtonStyle((prev) => ({
+            ...prev,
+            backgroundColor: '#2D2D2D',
+
+        }));
+    };
+
+    const handleIsLogin=async()=>{
+        if(!auth.user){
+            setVisible(false);
+            // alert("hey");
+            navigate('/login');
+           
+        }
+
+    }
 
 
     return (
@@ -165,22 +226,69 @@ const ProductDetails = () => {
 
         {/* Right Side - Product Info Section */}
         <div className="product-info-custom">
-            <h3>{product[0]?.name}</h3>
-            <h5>Price: ${product[0]?.price} <del> $1200</del></h5>
+            <h3 style={{color:'#2D2D2D',fontSize:'20px',fontWeight:'normal',letterSpacing:'0.6px',lineHeight:'24px'}}>{product[0]?.name}
+            <div style={{
+                cursor:'pointer',
+                fontSize:'20px',
+                color:'#2D2D2D',
+                fontWeight:'normal',
+                letterSpacing:'0.6px',
+                lineHeight:'24px',
+                display:'flex',
+                gap:'5px',
+                alignItems:'center',
+                marginLeft:'450px',
+                marginTop:'-20px',
+
+            }}>
+            <FiShare/>
+            </div>
+            </h3>
+            {/* <h5>Price: ${product[0]?.price} */}
+            <h5 style={{color:'#666666',fontFamily:'inherit',fontWeight:'normal',letterSpacing:'0.2px',lineHeight:'30px'}}><b>₹{originalPrice} </b>
+                 <del>{inflatedPrice}</del></h5>
             <p>{product[0]?.description}</p>
             <div className="sizes-custom">
-                <p>Size:</p>
-                <select name="Size" id="size" className="size-option-custom">
-                    <option value="xxl">XXL</option>
-                    <option value="xl">XL</option>
-                    <option value="medium">Medium</option>
-                    <option value="small">Small</option>
-                </select>
+                {/* <p>Size:</p> */}
+                <p style={{
+                    color: '#2D2D2D',
+                    fontWeight: 'bold',
+                    fontSize: '18px',
+                    lineHeight: '24px',
+                    letterSpacing: '0.4px',
+                    textTransform: 'uppercase',
+                    margin: '0px 0px 0px 0px',
+
+                }}>SIZE:</p>
+                <Dropdown value={selectSize} 
+                // onChange={(e)=>setSelectedSize(e.value)} 
+                options={size} optionLabel='label'
+                    placeholder="Select a Size" className="w-full md:w-12rem" checkmark={true} highlightOnSelect={false}
+                    // onChange={handleSizeChange}
+                    onChange={handleSizeChange}
+                    />
             </div>
 
             <div className="quantity-custom">
                 <InputText type="number" defaultValue="1" min="1" />
-                <Button id="add-to-cart-btn" className='ml-3 mt-2'>Add to Cart</Button>
+                {/* <Button id="add-to-cart-btn" className='ml-3 mt-2' style={{
+                    textTransform:'uppercase'
+                }}>Add to Bag</Button> */}
+                <Button 
+                                id="add-to-cart-btn" 
+                                className='ml-3 mt-2' 
+                                style={{ 
+                                    textTransform: 'uppercase', 
+                                    ...buttonStyle,
+                                }}
+                                onMouseEnter={handleMouseEnter} 
+                                onMouseLeave={handleMouseLeave}
+                                onClick={handleIsLogin}
+
+                            >
+                                <FiMail style={{ marginRight: '5px' }} />
+                                {buttonText}
+                            </Button>
             </div>
             
             {/* Delivery Information */}
@@ -219,11 +327,23 @@ const ProductDetails = () => {
                     />
                 </div> 
 
-        </div>
+        </div>   
     </section>
 </div>
 {/* related prod */}
 {/* heloo */}
+
+<Dialog header="Header" visible={visible} style={{ width: '50vw' }} onHide={() => {if (!visible) return; setVisible(false); }}>
+                <h1>Turn on a back-in-stock alert</h1>
+                <p>Having great taste is hard sometimes. 
+                Log in now to get an email the minute this item is back in stock!</p>
+                <Button style={{
+                    textTransform:'uppercase'
+                }}
+                onClick={() => setVisible(true)}
+                >Sign in/join</Button>
+
+            </Dialog>
 
     </>
   )
