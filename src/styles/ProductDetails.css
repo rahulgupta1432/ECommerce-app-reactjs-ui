@@ -209,3 +209,37 @@ hr {
 
 
 
+
+
+
+.heart-button {
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+	border: none;
+	background: none;
+	cursor: pointer;
+  }
+  
+  .heart-button:focus {
+	outline: none;
+  }
+  
+  .heart-button.is-active svg {
+	fill: #191919;
+	animation: beat cubic-bezier(0.04, 0.4, 0.5, 0.95) 450ms forwards 1;
+  }
+
+  
+  @keyframes beat {
+	30% {
+	  opacity: 1;
+	  transform: scale(1.4);
+	}
+	50% {
+	  transform: scale(0.8);
+	}
+	100% {
+	  transform: scale(1);
+	}
+  }

@@ -192,6 +192,7 @@ function HomePage() {
     }
   }
 
+
   const handleFilter=(value,id)=>{
     let all=[...checked]
     if(value){
@@ -276,6 +277,7 @@ function HomePage() {
     }
 
   },[checked,priceRange]);
+  
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -420,20 +422,26 @@ function HomePage() {
     </div>
   );
 
+  
   return (
     <>
       <Header />
-      <Dialog
-        header={<div style={{ textAlign: 'center', paddingLeft: '20px', fontSize: '24px' }}>Special Offer</div>}
-        visible={showModal}
-        onHide={handleCloseModal}
-      >
-        <img
-          src="https://cdn3.mageplaza.com/media/general/MImGnKu.png"
-          alt="Offer"
-          style={{ width: '100%' }}
-        />
-      </Dialog>
+      {
+        auth&&!auth.user&&(
+
+          <Dialog
+          header={<div style={{ textAlign: 'center', paddingLeft: '20px', fontSize: '24px' }}>Special Offer</div>}
+          visible={showModal}
+          onHide={handleCloseModal}
+          >
+          <img
+            src="https://cdn3.mageplaza.com/media/general/MImGnKu.png"
+            alt="Offer"
+            style={{ width: '100%' }}
+            />
+        </Dialog>
+          )
+      }
       <div className="flex">
         {/* Filter section */}
         <div className="flex flex-column bg-white p-3 border-round shadow-2" style={{ width: '260px', marginRight: '20px' }}>
