@@ -8,13 +8,11 @@ export default function useCategory(){
     const getCaegories=async()=>{
         try {
             const {data}=await axios.get(`${API_URL}/api/v1/categories/all-category`);
-            console.log(data.data);
             setCategories(data?.data.slice(0,-1));
         } catch (error) {
             toast.error(error?.data?.message)
         }
     }
-    console.log(categories)
 
     useEffect(()=>{
         getCaegories();

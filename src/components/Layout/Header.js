@@ -93,8 +93,10 @@ function Header({ title, description, keywords, author }) {
     {category && category.map((category) => (
       <li key={category.id}>
         <Link className='dropdown-item'
-        to={`/category/${encodeURIComponent(category.name.trim().replace(/\s+/g, '+')).replace(/%2B/g, '+')}`}
-        >{category.name}</Link>
+        // to={`/category/${encodeURIComponent(category.name.trim().replace(/\s+/g, '+')).replace(/%2B/g, '+')}`}
+        to={`/category/${encodeURIComponent(category.name.trim().replace(/\s+/g, '+')).replace(/%2B/g, '+')}/cat/${category._id}`}
+        >{category.name}
+        </Link>
       </li>
     ))}
   </ul>

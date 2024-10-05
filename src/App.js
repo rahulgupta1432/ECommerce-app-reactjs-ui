@@ -24,6 +24,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from './pages/Search';
 import ProductDetails from './pages/ProductDetails';
+import CategoryProducts from './pages/CategoryProducts';
+import AllCategories from './pages/AllCategories';
 // import TemplateDemo from './pages/Admin/TemplateDemo';
 
 function App() {
@@ -35,6 +37,9 @@ function App() {
       <Route path='/' element={<HomePage/>}/>
       <Route path='/search' element={<Search/>}/>
       <Route path='/product/:slug/prd/:id' element={<ProductDetails/>}/>
+      <Route path='/category/:id/cat/:id' element={<CategoryProducts/>}/>
+      <Route path='/categories' element={<AllCategories/>}/>
+
       
             {/* Nested private routes */}
       <Route path='/dashboard' element={<PrivateRoute />}>
