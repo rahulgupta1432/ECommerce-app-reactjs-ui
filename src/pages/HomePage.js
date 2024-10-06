@@ -14,6 +14,7 @@ import { useAuth } from '../context/Auth';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import {  useNavigate } from 'react-router-dom';
+import Footer from '../components/Layout/Footer';
 
         
 
@@ -605,9 +606,11 @@ categories.map((category) => (
           onChange={onPageChange} 
           /> */}
         
+        
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 }

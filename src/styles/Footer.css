@@ -1,0 +1,17 @@
+
+/* for new one */
+.custom-text-light {
+    color: #F5F5F5;
+}
+
+.custom-yellow a {
+    background-color: #FFD333;
+    border-color: #FFD333;
+    height: 40px;
+    width: 40px;
+    border-radius: 0;
+}
+
+.custom-yellow i {
+    color: black;
+}

@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Header from '../components/Layout/Header';
 import '../styles/AllCategories.css';
 import useCategory from '../hooks/useCategory';
 import { Link } from 'react-router-dom';
+import BackToTop from '../components/utils/BacktoTop';
+import Footer from '../components/Layout/Footer';
+
 // import { NavLink } from 'react-router-dom';
 
 const imageList = {
@@ -55,12 +58,16 @@ const AllCategories = () => {
 
     return () => clearInterval(interval); 
   }, []);
+  const containerRef = useRef(null);
+
 
   
   return (
       <>
       <Header />
-      <div className="container-fluid-custom-all-categories pt-5">
+      <div className="container-fluid-custom-all-categories pt-5"
+      ref={containerRef}
+      >
 
         {/* carousel */}
         <div className="container-fluid mb-3">
@@ -280,6 +287,128 @@ const AllCategories = () => {
     </div>
 </div>
 {/* end product */}
+
+{/* offer */}
+
+<div className="container-fluid pt-8 pb-3" style={{marginTop:'200px'}}>
+        <div className="row px-xl-5">
+            <div className="col-md-6">
+                <div className="product-offer mb-30" style={{height:' 300px'}}>
+                    <img class="img-fluid" src="img/offer-1.jpg" alt=""/>
+                    <div className="offer-text">
+                        <h6 className="text-white text-uppercase">Save 20%</h6>
+                        <h3 className="text-white mb-3">Special Offer</h3>
+                        <a href="" class="btn btn-primary" 
+                        style={{
+                          backgroundColor:'#FFD333',
+                          borderColor:'#FFD333',
+                          width:'150px',
+                          color:'#3D464D',
+                          borderRadius:'0'
+                        }}
+                        >Shop Now</a>
+                    </div>
+                </div>
+            </div>
+            <div className="col-md-6">
+                <div className="product-offer mb-30" style={{height:'300px'}}>
+                    <img className="img-fluid" src="img/offer-2.jpg" alt=""/>
+                    <div className="offer-text">
+                        <h6 className="text-white text-uppercase">Save 20%</h6>
+                        <h3 className="text-white mb-3">Special Offer</h3>
+                        <a href="" className="btn btn-primary"
+                        style={{
+                          backgroundColor:'#FFD333',
+                          borderColor:'#FFD333',
+                          width:'150px',
+                          color:'#3D464D',
+                          borderRadius:'0'
+                        }}
+                        >Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {/* offer end */}
+
+
+
+
+{/* recent product same as all product featured */}
+
+<div className="container-fluid pt-2 pb-3">
+    <h2 className="section-title position-relative text-uppercase mx-xl-5 mb-4">
+        <span className="secondary pr-3">Recent Products</span>
+    </h2>
+    <div className="row px-xl-5">
+        {Array.from({ length: 8 }).map((_, index) => (
+            <div className="col-lg-3 col-md-4 col-sm-6 pb-1" key={index}>
+                <div className="product-item bg-light mb-4">
+                    <div className="product-img position-relative overflow-hidden">
+                        <img className="img-fluid w-100" src={`img/product-${index + 1}.jpg`} alt="" />
+                        <div className="product-action">
+                            <a className="btn btn-outline-dark btn-square" href=""><i className="fa fa-shopping-cart"></i></a>
+                            <a className="btn btn-outline-dark btn-square" href=""><i className="far fa-heart"></i></a>
+                            <a className="btn btn-outline-dark btn-square" href=""><i className="fa fa-sync-alt"></i></a>
+                            <a className="btn btn-outline-dark btn-square" href=""><i className="fa fa-search"></i></a>
+                        </div>
+                    </div>
+                    <div className="text-center py-4">
+                        <a className="h6 text-decoration-none text-truncate" href="">Calvin Klein</a>
+                        <div className="d-flex align-items-center justify-content-center mt-2">
+                            <h5>$123.00</h5>
+                            <h6 className="text-muted ml-2"><del>$123.00</del></h6>
+                        </div>
+                        <div className="d-flex align-items-center justify-content-center mb-1">
+                            <small className="fa fa-star text-primary mr-1"></small>
+                            <small className="fa fa-star text-primary mr-1"></small>
+                            <small className="fa fa-star text-primary mr-1"></small>
+                            <small className="fa fa-star text-primary mr-1"></small>
+                            <small className="fa fa-star text-primary mr-1"></small>
+                            <small>(99)</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        ))}
+    </div>
+</div>
+{/* end recent product */}
+
+
+
+
+{/* companies */}
+<div className="container-fluid pt-5" style={{marginTop:'250px'}}>
+            <div className="row px-xl-5">
+                <div className="col">
+                    <div className="vendor-carousel d-flex justify-content-start mt-4"> {/* Added margin-top */}
+                        {[1, 2, 3, 4, 5, 6].map((vendor) => (
+                            <div key={vendor} className="bg-light p-4 me-2">
+                                <img 
+                                    src={`https://res.cloudinary.com/ddjbnp7ab/image/upload/v1728225632/vendor/vendor-${vendor}.jpg.jpg`} 
+                                    alt={`Vendor ${vendor}`} 
+                                    style={{ width: '100%', height: 'auto',marginLeft:'24px' }} 
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+<Footer/>
+{/* footer end */}
+<BackToTop ref={containerRef} />
+
+
+
+
+
 
       </div>
     </>

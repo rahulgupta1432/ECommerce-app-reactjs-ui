@@ -1,6 +1,6 @@
 
 .container-fluid-custom-all-categories {
-    height: auto; 
+    height: auto;
     overflow-y: auto; 
     max-height: 90vh;
     /* max-width: fit-content; */
@@ -100,3 +100,41 @@ small {
     background: rgba(61, 70, 77, 0.5);
     z-index: 1;
   }
+
+
+
+  .vendor-carousel {
+    display: flex; /* Enable flexbox */
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
+    white-space: nowrap; /* Prevent wrapping */
+}
+
+.vendor-carousel .bg-light {
+    flex: 0 0 auto; /* Prevent flex items from shrinking */
+}
+
+.mt-4 {
+    margin-top: 1.5rem; /* Adjust this value for more or less space */
+}
+
+
+
+/* footer */
+
+.custom-text-light {
+    color: #F5F5F5;
+}
+
+.custom-yellow a{
+    background-color: #FFD333;
+    border-color: #FFD333;
+    height: 40px;
+    width: 40px;
+    border-radius: 0;
+}
+
+.custom-yellow i{
+    color: black;
+    
+}
+  
