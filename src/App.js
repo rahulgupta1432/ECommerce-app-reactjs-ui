@@ -26,6 +26,7 @@ import Search from './pages/Search';
 import ProductDetails from './pages/ProductDetails';
 import CategoryProducts from './pages/CategoryProducts';
 import AllCategories from './pages/AllCategories';
+import Cart from './pages/Cart';
 // import TemplateDemo from './pages/Admin/TemplateDemo';
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
       <Route path='/product/:slug/prd/:id' element={<ProductDetails/>}/>
       <Route path='/category/:id/cat/:id' element={<CategoryProducts/>}/>
       <Route path='/categories' element={<AllCategories/>}/>
+      <Route path='/cart-checkout' element={<Cart/>}/>
 
       
             {/* Nested private routes */}

@@ -14,6 +14,7 @@ import { Dropdown } from 'primereact/dropdown'
 import { FiMail, FiShare } from "react-icons/fi";
 import { useAuth } from '../context/Auth'
 import { Dialog } from 'primereact/dialog'
+import { useCart } from '../context/Cart'
 
 
 const ProductDetails = () => {
@@ -44,6 +45,7 @@ const ProductDetails = () => {
      const [visible, setVisible] = useState(false);
      const [isWishlisted,setIsWishlisted]=useState({});
      const [wishlist, setWishlist] = useState({});
+     const [cart,setCart]=useCart();
 
      const handleGetProductDetails=async()=>{
         try {
@@ -207,7 +209,11 @@ const ProductDetails = () => {
         if(!auth.user){
             setVisible(false);
             navigate('/login');
-           
+        }else{
+          toast.success(`Item Added to Cart`)
+          setTimeout(()=>{
+            // navigate(`/cart-checkout/${params.slug}/prd/${params.id}`)
+          },2000)
         }
 
     }
@@ -349,8 +355,11 @@ const ProductDetails = () => {
                                 }}
                                 onMouseEnter={handleMouseEnter} 
                                 onMouseLeave={handleMouseLeave}
-                                onClick={handleIsLogin}
-
+                                onClick={()=>{
+                                  handleIsLogin()
+                                  setCart([...cart,product[0]]);
+                                  localStorage.setItem("cart",JSON.stringify([...cart,product[0]]))
+                                }}
                             >
                                 <FiMail style={{ marginRight: '5px' }} />
                                 {buttonText}

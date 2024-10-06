@@ -7,6 +7,8 @@ import { IoCartOutline } from "react-icons/io5";
 import SearchInput from '../Form/SearchInput';
 import { FaShopify } from "react-icons/fa";
 import useCategory from '../../hooks/useCategory';
+import { useCart } from '../../context/Cart';
+import { Badge } from 'primereact/badge';
 
 
 
@@ -27,6 +29,7 @@ export const handleLogout = async (auth, setAuth) => {
 function Header({ title, description, keywords, author }) {
   const [auth, setAuth] = useAuth();
   const category=useCategory();
+  const [cart]=useCart();  
 
   const logout = () => handleLogout(auth, setAuth);
 
@@ -133,8 +136,13 @@ function Header({ title, description, keywords, author }) {
                 </>
               )}
               <li className="nav-item">
-                <NavLink to="/cart" className="nav-link"><IoCartOutline style={{ width: '25px', height: '30px' }}/> Cart (0)</NavLink>
+                <NavLink to="/cart-checkout" className="nav-link"><IoCartOutline style={{ width: '25px', height: '30px' }}/> 
+                Cart
+                </NavLink>
               </li>
+              <Badge value={cart?.length}
+               severity="danger" style={{marginRight:'13px',marginLeft:'-6px',marginBottom:'24px',fontSize: '15px'}}>  
+    </Badge>
             </ul>
           </div>
         </div>
