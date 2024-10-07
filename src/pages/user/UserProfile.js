@@ -9,7 +9,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../context/Auth';
 
-const UserProfile = () => {
+export const UserProfile = () => {
     const [auth] = useAuth();
     const [userAuth, setUserAuth] = useState([]);
     const user = userAuth[0];
@@ -305,4 +305,4 @@ const UserProfile = () => {
     );
 };
 
-export default UserProfile;
+// export default UserProfile;
