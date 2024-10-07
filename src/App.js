@@ -27,8 +27,8 @@ import ProductDetails from './pages/ProductDetails';
 import CategoryProducts from './pages/CategoryProducts';
 import AllCategories from './pages/AllCategories';
 import Cart from './pages/Cart';
-import AccountDetails from './pages/User/AccountDetails';
 import UserProfile from './pages/User/UserProfile';
+import AccountDetails from './pages/User/AccountDetails';
 // import TemplateDemo from './pages/Admin/TemplateDemo';
 
 function App() {
