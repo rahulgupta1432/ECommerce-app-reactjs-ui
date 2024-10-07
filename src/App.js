@@ -28,7 +28,7 @@ import CategoryProducts from './pages/CategoryProducts';
 import AllCategories from './pages/AllCategories';
 import Cart from './pages/Cart';
 import UserProfile from './pages/User/UserProfile';
-import AccountDetails from './pages/User/AccountDetails';
+// import AccountDetails from './pages/User/AccountDetails';
 // import TemplateDemo from './pages/Admin/TemplateDemo';
 
 function App() {
@@ -49,7 +49,7 @@ function App() {
       <Route path='/dashboard' element={<PrivateRoute />}>
         <Route index element={<Dashboard />} />
         <Route path='user' element={<Dashboard />} />
-        <Route path='user/account-details' element={<AccountDetails />} />
+        {/* <Route path='user/account-details' element={<AccountDetails />} /> */}
         <Route path='user/profile-details' element={<UserProfile />} />
         
         {/* Nested admin routes under dashboard */}
