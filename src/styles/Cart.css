@@ -1,0 +1,29 @@
+.customer-fluid{
+    height: '600%';
+    overflow-y: auto; 
+    max-height: 90vh;
+}
+
+.custom-summary{
+    color: #3D464D;
+    font-weight: 500;
+}
+
+
+.custom-button{
+    background-color: #FFD333;
+    border-radius: 0;
+}
+
+
+
+.table .thead-dark th {
+    color: inherit;
+    border-color: #dee2e6;
+  }
+  .table .thead-dark th {
+    color: #fff;
+    background-color: #343a40;
+    border-color: #454d55;
+  }
+  

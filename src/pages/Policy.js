@@ -1,12 +1,11 @@
 import React from 'react'
-import Layout from '../components/Layout/Layout'
 import Header from '../components/Layout/Header'
 
 function Policy() {
   return (
 <>
     {/* <Layout> */}
-      <Header title={'Privacy Policy -  ECommerce App'}/>
+      <Header title={'Privacy Policy -  Fusion-Store'}/>
       <h1>Policy</h1>
     {/* </Layout> */}
     </>

@@ -1,12 +1,12 @@
 import React from 'react';
 import Header from '../components/Layout/Header';
-import '../css/Contact.css';
+import '../styles/Contact.css';
 // import "../App.css"
 
 function Contact() {
   return (
     <>
-      <Header title={'Contact us -  ECommerce App'}/>
+      <Header title={'Contact us -  Fusion-Store'}/>
       <section className="contact-section">
         <div className="contact-intro">
           <h2 className="contact-title">Get in Touch</h2>
