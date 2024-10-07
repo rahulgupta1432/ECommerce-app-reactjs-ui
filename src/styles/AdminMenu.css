@@ -1,41 +1,126 @@
+/* 
+ .user-menu-container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 280px;
+    position: fixed;
+    height: 100%;
+    left: 0;
+    top: 100px;
+    overflow-y: auto;
+    background-color: #f8f9fa; 
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar-link {
+    text-decoration: none;
+    color: black;
+}
+
 .list-group {
-    padding: 1rem;
+    padding: 10px 0;
 }
 
 .list-group-item {
-    background-color: transparent; /* Default background */
-    color: black; /* Default text color */
-    padding: 10px; /* Add padding for better touch targets */
-    transition: background-color 0.3s, color 0.3s; /* Smooth transitions */
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: gray;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.list-group-item.active {
+    background-color: #007bff; 
+    color: white;
+}
+
+.sidebar-icon {
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+.sidebar-text {
+    flex: 1;
+}
+
+.content {
+    margin-left: 300px;
+    padding: 20px;
+    flex: 1;
+} */
+
+
+.user-menu-container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 280px;
+    position: fixed;
+    height: 100%;
+    left: 0;
+    top: 100px;
+    overflow-y: auto;
+    background-color: #f8f9fa; /* Light background for sidebar */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar-link {
+    text-decoration: none;
+    color: black;
+}
+
+.list-group {
+    padding: 10px 0;
+}
+
+.list-group-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: gray;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .list-group-item:hover {
-    background-color: #488aec; /* Use the button color on hover */
-    color: white; /* Text color on hover */
+    background-color: #488aec; /* Hover effect */
+    color: white; /* Change text color on hover */
 }
 
-.list-group-item-active {
-    background-color: #0056b3; /* A darker shade of the button color for active state */
-    color: white; /* Active link text color */
+.list-group-item.active {
+    background-color: #0056b3; /* Active link background */
+    color: white; /* Text color for active item */
 }
 
-
-
-.custom-list-item {
-    color: gray; /* Default text color */
-    transition: color 0.3s ease;
+.sidebar-icon {
+    margin-right: 10px;
+    font-size: 24px;
 }
 
-.custom-list-item-action {
-    cursor: pointer;
-    text-decoration: none; /* Link underline ko hataana */
+.sidebar-text {
+    flex: 1;
 }
 
-.custom-list-item-action:hover {
-    color: #dc3545; /* Bootstrap ka danger color */
+.content {
+    margin-left: 300px; /* Adjust margin to fit sidebar */
+    padding: 20px;
+    flex: 1;
 }
-
-.custom-list-item-action:hover svg {
-    color: #dc3545; /* Icon ka color bhi danger color mein */
-}
-

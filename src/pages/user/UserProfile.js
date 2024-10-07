@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
-import Layout from '../../components/Layout/Layout';
 import UserMenu from '../../components/Layout/UserMenu';
 import { MdVerified } from "react-icons/md";
 import { API_URL } from '../../constants/constants';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../context/Auth';
+import Header from '../../components/Layout/Header';
 
 const UserProfile = () => {
     const [auth] = useAuth();
@@ -100,7 +100,8 @@ const UserProfile = () => {
     };
 
     return (
-        <Layout title={'Dashboard - Fusion-Store'}>
+        <>
+        <Header title={'Dashboard - Fusion-Store'}/>
             <div className='container-fluid m-3 p-3'>
                 <div className='row'>
                     <div className='col-md-3'>
@@ -301,7 +302,7 @@ const UserProfile = () => {
                     </div>
                 </div>
             </div>
-        </Layout>
+        </>
     );
 };
 

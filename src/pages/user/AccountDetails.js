@@ -35,16 +35,17 @@ import React from 'react';
 import { Card } from 'primereact/card';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import Layout from '../../components/Layout/Layout';
 import UserMenu from '../../components/Layout/UserMenu';
 import { useAuth } from '../../context/Auth';
+import Header from '../../components/Layout/Header';
 
 const AccountDetails = () => {
   const [auth] = useAuth();
   const user = auth?.user; // Destructure user from auth
 
   return (
-    <Layout title={'Dashboard - Fusion-Store'}>
+    <>
+    <Header title={'Dashboard - Fusion-Store'}/>
       <div className='container-fluid m-3 p-3'>
         <div className='row'>
           <div className='col-md-3'>
@@ -92,7 +93,7 @@ const AccountDetails = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   );
 };
 

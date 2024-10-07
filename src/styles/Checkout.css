@@ -1,0 +1,99 @@
+/* 
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: auto;
+}
+
+.container-fluid-checkout-custom {
+    padding: 15px;
+    min-height: calc(100vh - 60px); 
+    flex-direction: column;
+}
+
+.main-content-checkout-custom{
+    flex: 1;
+    overflow-y: auto; 
+} */
+
+/* .footer {
+    height: 60px; 
+    background-color: #f8f9fa;
+    text-align: center;
+    padding: 15px;
+}
+ */
+
+/* .container-fluid {
+    padding: 15px;
+} */
+
+.breadcrumb {
+    background-color: #f8f9fa;
+}
+
+.section-title {
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.bg-light {
+    background-color: #f8f9fa;
+}
+
+.p-30 {
+    padding: 30px;
+}
+
+.mb-5 {
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.custom-control {
+    margin-bottom: 0.5rem;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.section-title span {
+    padding: 0 15px;
+    background-color: #6c757d;
+    color: white;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
+.font-weight-bold {
+    font-weight: 700;
+}
+
+.custom-select {
+    border-radius: 0.25rem;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.custom-control-label {
+    margin-bottom: 0;
+}

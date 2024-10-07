@@ -32,7 +32,6 @@ header {
     cursor: pointer;
 }
 
-/* Active state for small images */
 #small-img-0:active, 
 #small-img-1:active, 
 #small-img-2:active, 
@@ -59,7 +58,6 @@ header {
     font-family: Lato;
     font-weight: 500;
     line-height: 130%;
-    /* color: #ff4242; */
     color:'#666666';
     margin: 6px 0;
 }
@@ -93,7 +91,7 @@ header {
     padding: 6px;
 }
 
-/* Unique button styles */
+
 #add-to-cart-btn {
     background: #17696a;
     border-radius: 4px;
@@ -157,19 +155,18 @@ hr {
 
 
 
-/* set button and input */
 .quantity-custom input {
-    width: 100px; /* Adjust the width as needed */
-    height: 40px; /* Set the height to match the button */
-    margin-bottom: 0; /* Removes any bottom margin */
-    padding: 8px; /* Adjust padding to ensure content fits well */
+    width: 100px; 
+    height: 40px; 
+    margin-bottom: 0; 
+    padding: 8px; 
     outline: none;
     
 }
 
 #add-to-cart-btn {
-    height: 40px; /* Match the height of the input */
-    margin-left: 10px; /* Adjusts space between input and button */
+    height: 40px;
+    margin-left: 10px;
     margin-top: 0; 
 }
 
@@ -178,9 +175,6 @@ hr {
     --bs-breadcrumb-divider: " > "; 
 }
 
-
-
-/* scroll */
 .container {
     max-height: 600px; 
     overflow-y: auto; 
@@ -205,10 +199,6 @@ hr {
     margin-top: 50px;
     margin-left: -73%;
 }
-
-
-
-
 
 
 

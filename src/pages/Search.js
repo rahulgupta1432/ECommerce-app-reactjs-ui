@@ -10,6 +10,7 @@ import { API_URL } from '../constants/constants';
 import axios from 'axios';
 import { useAuth } from '../context/Auth';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const Search = () => {
     const [search,setSearch]=useSearch();
@@ -18,6 +19,7 @@ const Search = () => {
     const [isWishlisted,setIsWishlisted]=useState({});
     const [wishlist, setWishlist] = useState({});
     const [hoveredImages, setHoveredImages] = useState({});
+    const navigate=useNavigate();
 
 
 
@@ -115,6 +117,9 @@ const Search = () => {
                 className="product-image w-9 shadow-2 border-round"
                 src={hoveredImages[product._id] && product.imageList[1] ? product.imageList[1] : product.imageList[0]} 
                 alt={product.name} 
+                onClick={()=>{
+                  navigate(`/product/${product.slug}/prd/${product._id}`);
+                }}
               />
               <Button
                 icon={<HeartButton isActive={isWishlisted[product._id]}/>}

@@ -1,7 +1,7 @@
 import React from 'react'
-import Layout from '../../components/Layout/Layout'
 import UserMenu from '../../components/Layout/UserMenu'
 import { useAuth } from '../../context/Auth';
+import Header from '../../components/Layout/Header';
 
 const Dashboard = () => {
   const [auth] = useAuth();
@@ -9,8 +9,8 @@ const Dashboard = () => {
     // <>
     // Hello Dashboard Page
     // </>
-    
-    <Layout title={'Dashboard - Fusion-Store'}>
+    <>
+    <Header title={'Dashboard - Fusion-Store'}/>
       <div className='container-fluid m-3 p-3'>
         <div className='row'>
           <div className='col-md-3'>
@@ -24,7 +24,7 @@ const Dashboard = () => {
           </div>
         </div>
         </div>
-    </Layout>
+    </>
   )
 }
 

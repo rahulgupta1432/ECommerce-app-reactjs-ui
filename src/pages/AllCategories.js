@@ -259,12 +259,12 @@ const AllCategories = () => {
                 <div className="product-item bg-light mb-4">
                     <div className="product-img position-relative overflow-hidden">
                         <img className="img-fluid w-100" src={`img/product-${index + 1}.jpg`} alt="" />
-                        <div className="product-action">
+                        {/* <div className="product-action">
                             <a className="btn btn-outline-dark btn-square" href=""><i className="fa fa-shopping-cart"></i></a>
                             <a className="btn btn-outline-dark btn-square" href=""><i className="far fa-heart"></i></a>
                             <a className="btn btn-outline-dark btn-square" href=""><i className="fa fa-sync-alt"></i></a>
                             <a className="btn btn-outline-dark btn-square" href=""><i className="fa fa-search"></i></a>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="text-center py-4">
                         <a className="h6 text-decoration-none text-truncate" href="">Calvin Klein</a>
@@ -290,7 +290,7 @@ const AllCategories = () => {
 
 {/* offer */}
 
-<div className="container-fluid pt-8 pb-3" style={{marginTop:'200px'}}>
+<div className="container-fluid pt-8 pb-3">
         <div className="row px-xl-5">
             <div className="col-md-6">
                 <div className="product-offer mb-30" style={{height:' 300px'}}>
@@ -347,12 +347,12 @@ const AllCategories = () => {
                 <div className="product-item bg-light mb-4">
                     <div className="product-img position-relative overflow-hidden">
                         <img className="img-fluid w-100" src={`img/product-${index + 1}.jpg`} alt="" />
-                        <div className="product-action">
+                        {/* <div className="product-action">
                             <a className="btn btn-outline-dark btn-square" href=""><i className="fa fa-shopping-cart"></i></a>
                             <a className="btn btn-outline-dark btn-square" href=""><i className="far fa-heart"></i></a>
                             <a className="btn btn-outline-dark btn-square" href=""><i className="fa fa-sync-alt"></i></a>
                             <a className="btn btn-outline-dark btn-square" href=""><i className="fa fa-search"></i></a>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="text-center py-4">
                         <a className="h6 text-decoration-none text-truncate" href="">Calvin Klein</a>
@@ -380,7 +380,7 @@ const AllCategories = () => {
 
 
 {/* companies */}
-<div className="container-fluid pt-5" style={{marginTop:'250px'}}>
+<div className="container-fluid pt-2">
             <div className="row px-xl-5">
                 <div className="col">
                     <div className="vendor-carousel d-flex justify-content-start mt-4"> {/* Added margin-top */}

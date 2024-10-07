@@ -29,6 +29,7 @@ import AllCategories from './pages/AllCategories';
 import Cart from './pages/Cart';
 import UserProfile  from './pages/User/UserProfile';
 import AccountDetails from './pages/User/AccountDetails';
+import Checkout from './pages/Checkout';
 // import UserProfile from './pages/User/UserProfile';
 // import AccountDetails from './pages/User/AccountDetails';
 // import TemplateDemo from './pages/Admin/TemplateDemo';
@@ -45,6 +46,8 @@ function App() {
       <Route path='/category/:id/cat/:id' element={<CategoryProducts/>}/>
       <Route path='/categories' element={<AllCategories/>}/>
       <Route path='/cart-checkout' element={<Cart/>}/>
+      <Route path='/checkout' element={<Checkout/>}/>
+
 
       
             {/* Nested private routes */}
@@ -53,6 +56,7 @@ function App() {
         <Route path='user' element={<Dashboard />} />
         <Route path='user/profile-details' element={<UserProfile />} />
         <Route path='user/account-details' element={<AccountDetails />} />
+        <Route path='user/orders' element={<OrdersPage/>} />
         
         {/* Nested admin routes under dashboard */}
         <Route path='admin' element={<AdminRoute />}>

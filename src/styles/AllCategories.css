@@ -3,7 +3,6 @@
     height: auto;
     overflow-y: auto; 
     max-height: 90vh;
-    /* max-width: fit-content; */
 }
 
 
@@ -11,56 +10,56 @@
 .section-title {
     font-size: 2rem;
     font-weight: bold;
-    color: #333; /* Darker title color */
+    color: #333; 
 }
 
 .cat-item {
-    background-color: #fff; /* White background for categories */
-    border: 1px solid #dee2e6; /* Light gray border */
-    border-radius: 8px; /* Rounded corners */
-    transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for hover effects */
-    overflow: hidden; /* Prevents overflow of images */
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 8px; 
+    transition: transform 0.3s, box-shadow 0.3s; 
+    overflow: hidden; 
 }
 
 .cat-item:hover {
-    transform: translateY(-5px); /* Slightly lift on hover */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
 }
 
 .img-fluid {
-    width: 100%; /* Ensures image fills the container */
-    height: auto; /* Maintains aspect ratio */
+    width: 100%; 
+    height: auto;
 }
 
 .overflow-hidden {
-    overflow: hidden; /* Hides overflow from the images */
+    overflow: hidden; 
 }
 
 .flex-fill {
     display: flex;
-    flex-direction: column; /* Align text vertically */
-    justify-content: center; /* Center text */
+    flex-direction: column; 
+    justify-content: center;
 }
 
 h6 {
-    font-size: 1.25rem; /* Slightly larger font for category names */
-    margin: 0; /* Remove default margin */
-    color: #007bff; /* Primary color for category names */
+    font-size: 1.25rem; 
+    margin: 0; 
+    color: #007bff;
 }
 
 small {
-    color: #6c757d; /* Muted color for product count */
+    color: #6c757d;
 }
 
 .text-decoration-none {
-    text-decoration: none; /* Remove underline from links */
+    text-decoration: none;
 }
 
 .text-decoration-none:hover {
-    text-decoration: underline; /* Underline on hover for links */
+    text-decoration: underline;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
     .cat-item {
         margin-bottom: 20px; 
@@ -69,7 +68,6 @@ small {
 
  
 
-/* product offer */
 .product-offer {
     position: relative;
     overflow: hidden;
@@ -104,17 +102,17 @@ small {
 
 
   .vendor-carousel {
-    display: flex; /* Enable flexbox */
-    overflow-x: auto; /* Allow horizontal scrolling if needed */
-    white-space: nowrap; /* Prevent wrapping */
+    display: flex; 
+    overflow-x: auto;
+    white-space: nowrap;
 }
 
 .vendor-carousel .bg-light {
-    flex: 0 0 auto; /* Prevent flex items from shrinking */
+    flex: 0 0 auto; 
 }
 
 .mt-4 {
-    margin-top: 1.5rem; /* Adjust this value for more or less space */
+    margin-top: 1.5rem; 
 }
 
 
