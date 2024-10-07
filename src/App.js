@@ -27,7 +27,8 @@ import ProductDetails from './pages/ProductDetails';
 import CategoryProducts from './pages/CategoryProducts';
 import AllCategories from './pages/AllCategories';
 import Cart from './pages/Cart';
-import { UserProfile } from './pages/User/UserProfile';
+import UserProfile  from './pages/User/UserProfile';
+import AccountDetails from './pages/User/AccountDetails';
 // import UserProfile from './pages/User/UserProfile';
 // import AccountDetails from './pages/User/AccountDetails';
 // import TemplateDemo from './pages/Admin/TemplateDemo';
@@ -49,9 +50,9 @@ function App() {
             {/* Nested private routes */}
       <Route path='/dashboard' element={<PrivateRoute />}>
         <Route index element={<Dashboard />} />
-        <Route path='user/profile-details' element={<UserProfile />} />
         <Route path='user' element={<Dashboard />} />
-        {/* <Route path='user/account-details' element={<AccountDetails />} /> */}
+        <Route path='user/profile-details' element={<UserProfile />} />
+        <Route path='user/account-details' element={<AccountDetails />} />
         
         {/* Nested admin routes under dashboard */}
         <Route path='admin' element={<AdminRoute />}>
