@@ -48,9 +48,9 @@ function App() {
             {/* Nested private routes */}
       <Route path='/dashboard' element={<PrivateRoute />}>
         <Route index element={<Dashboard />} />
+        <Route path='user/profile-details' element={<UserProfile />} />
         <Route path='user' element={<Dashboard />} />
         {/* <Route path='user/account-details' element={<AccountDetails />} /> */}
-        <Route path='user/profile-details' element={<UserProfile />} />
         
         {/* Nested admin routes under dashboard */}
         <Route path='admin' element={<AdminRoute />}>
