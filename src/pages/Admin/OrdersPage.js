@@ -212,16 +212,20 @@ const OrdersPage = () => {
                     let color;
                     let fontSize;
                     let fontWeight;
-                    if (rowData.status === 'Processing') {
-                      color = 'green';
+                    if (rowData.status === 'Placed') {
+                      color='#007bff';
                       fontSize = '12px';
                       fontWeight = 'bold'
-                    } else if (rowData.status === 'Placed') {
+                    } else if (rowData.status === 'Shiped') {
                       color = '#FFA500';
                       fontSize = '12px';
                       fontWeight = 'bold';
                     } else if (rowData.status === 'Cancelled') {
                       color = 'red';
+                      fontSize = '12px';
+                      fontWeight = 'bold';
+                    }else if(rowData.status==='Delivered'){
+                      color = 'green';
                       fontSize = '12px';
                       fontWeight = 'bold';
                     }
@@ -251,7 +255,7 @@ const OrdersPage = () => {
                                     <Column field="price" header="MRP" />
                                     <Column field="" body={actionBodyTemplate} header="Action"/> */}
               </DataTable>
-              {JSON.stringify(order, null, 4)}
+              {/* {JSON.stringify(order, null, 4)} */}
             </div>
 
 
