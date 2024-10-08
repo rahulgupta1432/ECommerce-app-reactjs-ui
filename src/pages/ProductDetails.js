@@ -19,6 +19,7 @@ import { useCart } from '../context/Cart'
 
 const ProductDetails = () => {
     const params=useParams();
+    const requestQuery = new URLSearchParams();
     const [product,setProduct]=useState([]);
     const [activeIndex, setActiveIndex] = useState(0);
     const smallImgs=useRef([]);
@@ -46,13 +47,20 @@ const ProductDetails = () => {
      const [isWishlisted,setIsWishlisted]=useState({});
      const [wishlist, setWishlist] = useState({});
      const [cart,setCart]=useCart();
+     const [loading, setLoading] = useState(true);
+
+     useEffect(() => {
+      if(params?.id){
+          handleGetProductDetails();
+      }
+  },[params?.id]);
 
      const handleGetProductDetails=async()=>{
+      setLoading(true);
         try {
-            const requestQuery = new URLSearchParams();
-            if (auth?.user?._id) {
-                requestQuery.append('userId', auth.user._id);
-            }
+            // if (auth?.user?._id) {
+            //     requestQuery.append('userId', auth.user._id);
+            // }
             requestQuery.append('productId',params.id);
             const response=await axios.get(`${API_URL}/api/v1/product/get-details?${requestQuery.toString()}`);
             const resp=response.data;
@@ -67,9 +75,14 @@ const ProductDetails = () => {
             }
         } catch (error) {
             toast.error(error.response?.data?.message);
-        }
+        }finally {
+          setLoading(false); // Step 2: Set loading to false
+      }
     }
 
+    if (loading) {
+      return <div>Loading...</div>;
+  }
     // wishlist API
   const handleToggleWishlist=async(productId)=>{
     if(!auth.user){
@@ -101,11 +114,7 @@ const ProductDetails = () => {
       toast.error(error.response?.data?.message);
     }
   }
-    useEffect(() => {
-        if(params?.id){
-            handleGetProductDetails();
-        }
-    },[params?.id]);
+   
     const handleClick=(index)=>{
         setActiveIndex(index)
     }

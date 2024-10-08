@@ -62,12 +62,12 @@ const Search = () => {
         console.log(setSearch);
 
     const toggleWishlist = async (productId) => {
+      handleToggleWishlist(productId); 
         setWishlist((prev) => {
           const updatedWishlist = {
             ...prev,
             [productId]: !prev[productId],
           };
-          handleToggleWishlist(productId); 
           return updatedWishlist;
         });
     
@@ -117,8 +117,12 @@ const Search = () => {
                 className="product-image w-9 shadow-2 border-round"
                 src={hoveredImages[product._id] && product.imageList[1] ? product.imageList[1] : product.imageList[0]} 
                 alt={product.name} 
-                onClick={()=>{
+                onClick={(event)=>{
+                  // setTimeout(()=>{
+                    event.stopPropagation();
+                    event.preventDefault();
                   navigate(`/product/${product.slug}/prd/${product._id}`);
+                  // },2000)
                 }}
               />
               <Button
