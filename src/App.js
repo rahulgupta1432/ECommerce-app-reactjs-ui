@@ -30,6 +30,7 @@ import Cart from './pages/Cart';
 import UserProfile  from './pages/User/UserProfile';
 import AccountDetails from './pages/User/AccountDetails';
 import Checkout from './pages/Checkout';
+import OrderDetails from './pages/Admin/OrderDetails';
 // import UserProfile from './pages/User/UserProfile';
 // import AccountDetails from './pages/User/AccountDetails';
 // import TemplateDemo from './pages/Admin/TemplateDemo';
@@ -56,7 +57,7 @@ function App() {
         <Route path='user' element={<Dashboard />} />
         <Route path='user/profile-details' element={<UserProfile />} />
         <Route path='user/account-details' element={<AccountDetails />} />
-        <Route path='user/orders' element={<OrdersPage/>} />
+        {/* <Route path='user/orders' element={<OrdersPage/>} /> */}
         
         {/* Nested admin routes under dashboard */}
         <Route path='admin' element={<AdminRoute />}>
@@ -64,9 +65,10 @@ function App() {
           <Route index element={<AdminDashboard />} />
           <Route path='categories' element={<CategoryPage />} />
           <Route path='products' element={<ProductsPage />} />
-          <Route path='orders' element={<OrdersPage />} />
+          <Route path='all-orders' element={<OrdersPage />} />
           <Route path='offers' element={<OfferPage />} />
           <Route path='users' element={<UsersPage />} />
+          <Route path='orders/:id' element={<OrderDetails />} />
         </Route>
       </Route>
 

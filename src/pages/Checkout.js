@@ -36,7 +36,7 @@ const Checkout = () => {
     // Fetch user profile data
     const getUserProfile = async () => {
         try {
-            const response = await axios.get(`${API_URL}/api/v1/admin/get-user?userId=${auth?.user?._id}`);
+            const response = await axios.get(`${API_URL}/api/v1/user/get-user?userId=${auth?.user?._id}`);
             const resp = response.data;
 
             if (resp?.code === 200) {
@@ -107,7 +107,7 @@ const Checkout = () => {
     }, [auth?.user?._id,auth?.token]);
     const handlePayment=async()=>{
         try {
-            toast.success("inside api")
+            toast.success(totalPriceforPayment())
           setLoading(true);
           let nonceData = [];
           if(paymentMode==="Paypal"){
@@ -116,9 +116,12 @@ const Checkout = () => {
             // const nonceData=nonce;
           }
 
-          console.log("nonce",nonceData);
+          const totalQuantity = cart.reduce((acc, product) => acc + product.quantity, 0);
+
           const response=await axios.post(`${API_URL}/api/v1/payment/process?paymentMode=${paymentMode}`,{
             nonce:nonceData,cart,
+            quantity:totalQuantity,
+            totalPayment:totalPriceforPayment()
           })
           setLoading(false);
           localStorage.removeItem('cart');

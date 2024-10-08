@@ -25,7 +25,7 @@ const UserProfile = () => {
 
     const getUserProfile = async () => {
         try {
-            const response = await axios.get(`${API_URL}/api/v1/admin/get-user?userId=${auth.user._id}`);
+            const response = await axios.get(`${API_URL}/api/v1/user/get-user?userId=${auth.user._id}`);
             const resp = response.data;
             if (resp?.code === 200) {
                 setUserAuth(resp.data);
@@ -85,7 +85,7 @@ const UserProfile = () => {
         formDataToSend.append('userId', updatedData.userId);
 
         try {
-            const response = await axios.put(`${API_URL}/api/v1/admin/update-profile`, formDataToSend);
+            const response = await axios.put(`${API_URL}/api/v1/user/update-profile`, formDataToSend);
             console.log("Profile updated successfully:", response.data);
             setIsEditing(false);
             const resp = response.data;
