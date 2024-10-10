@@ -29,7 +29,7 @@ const Checkout = () => {
     const [instance,setInstance]=useState("");
     const [loading,setLoading]=useState(false);
     const navigate=useNavigate();
-    const [paymentMode,setPaymentMode]=useState(['']);
+    let [paymentMode,setPaymentMode]=useState(['']);
     const [showDropIn, setShowDropIn] = useState(false);
     console.log({checkout});
 
@@ -88,7 +88,7 @@ const Checkout = () => {
           const response=await axios.get(`${API_URL}/api/v1/payment/get-payment-token`);
           const res=response?.data;
           if(res?.code===200){
-            toast.success("Token Get Sucessfully")
+            toast.success("Token Get Sucessfully Click Again to Start Payment Process!")
             setClientToken(res.data[0].clientToken);
           }
         } catch (error) {
@@ -107,7 +107,6 @@ const Checkout = () => {
     }, [auth?.user?._id,auth?.token]);
     const handlePayment=async()=>{
         try {
-            toast.success(totalPriceforPayment())
           setLoading(true);
           let nonceData = [];
           if(paymentMode==="Paypal"){
@@ -117,17 +116,23 @@ const Checkout = () => {
           }
 
           const totalQuantity = cart.reduce((acc, product) => acc + product.quantity, 0);
+          if(paymentMode==="Cash on Delivery"){
+            paymentMode="COD";
+          }
 
           const response=await axios.post(`${API_URL}/api/v1/payment/process?paymentMode=${paymentMode}`,{
             nonce:nonceData,cart,
             quantity:totalQuantity,
             totalPayment:totalPriceforPayment()
           })
-          setLoading(false);
-          localStorage.removeItem('cart');
-          setCart([]);
-          navigate("/dashboard/user/orders");
-          toast.success(response?.data?.message);
+          const resp=response.data;
+          if(resp.code===200){
+              setLoading(false);
+              localStorage.removeItem('cart');
+              setCart([]);
+              navigate("/dashboard/user/orders");
+              toast.success(response?.data?.message);
+            }
         } catch (error) {
           toast.error(error?.response?.data?.message);
           setLoading(false);
@@ -144,8 +149,8 @@ const Checkout = () => {
             }
             setShowDropIn(true); 
         } else if (paymentMode === "Cash On Delivery") {
+            paymentMode="COD";
             // Show modal with order placed successfully
-            toast.success("Order placed successfully with Cash on Delivery!");
             handlePayment();
             // Optionally navigate or perform any other action here
         } else if (paymentMode === "UPI") {

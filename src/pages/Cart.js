@@ -327,7 +327,11 @@ const Cart = () => {
 
       const handleClicktoNavigate=async()=>{
         if(auth?.token){
-          navigate("/checkout");
+          if(!cart.length){
+            toast.warn("Your cart is empty");
+          }else{
+            navigate("/checkout");
+          }
         }else{
           navigate("/login");
       }

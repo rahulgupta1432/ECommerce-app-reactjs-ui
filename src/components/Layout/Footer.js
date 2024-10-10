@@ -47,9 +47,9 @@ const Footer = () => {
               <h5 className="text-uppercase mb-4">Quick Shop</h5>
               <div className="d-flex flex-column justify-content-start">
                 <Link className="mb-2" to="/"><i className="fa fa-angle-right mr-2"></i>Home</Link>
-                <Link className="mb-2" to="/shop"><i className="fa fa-angle-right mr-2"></i>Our Shop</Link>
-                <Link className="mb-2" to="/shop-detail"><i className="fa fa-angle-right mr-2"></i>Shop Detail</Link>
-                <Link className="mb-2" to="/cart"><i className="fa fa-angle-right mr-2"></i>Shopping Cart</Link>
+                <Link className="mb-2" to="/categories"><i className="fa fa-angle-right mr-2"></i>Our Shop</Link>
+                <Link className="mb-2" to="/category/Clothing+Accessorie/cat/66f47cc9faa69eab356d09e0"><i className="fa fa-angle-right mr-2"></i>Shop Detail</Link>
+                <Link className="mb-2" to="/cart-checkout"><i className="fa fa-angle-right mr-2"></i>Shopping Cart</Link>
                 <Link className="mb-2" to="/checkout"><i className="fa fa-angle-right mr-2"></i>Checkout</Link>
                 <Link to="/contact"><i className="fa fa-angle-right mr-2"></i>Contact Us</Link>
               </div>
@@ -67,29 +67,38 @@ const Footer = () => {
               <h5 className="text-uppercase mb-4">Newsletter</h5>
               <p>Duo stet tempor ipsum sit amet magna ipsum tempor est</p>
               <form action="">
-                <div className="input-group">
-                  <input type="text" className="form-control" placeholder="Your Email Address" 
-                    style={{
-                      width: '150px',
-                      color: '#3D464D',
-                      borderRadius: '0'
-                    }} 
-                  />
-                  <div className="input-group-append mt-3">
-                    <button className="btn btn-primary"
-                      style={{
-                        backgroundColor: '#FFD333',
-                        borderColor: '#FFD333',
-                        height: '100%',
-                        width: '150px',
-                        color: '#3D464D',
-                        borderRadius: '0'
-                      }}>
-                      Sign Up
-                    </button>
-                  </div>
-                </div>
-              </form>
+  <div className="input-group" style={{ display: 'flex', alignItems: 'flex-start' }}>
+    <input
+      type="text"
+      className="form-control"
+      placeholder="Your Email Address"
+      style={{
+        width: '150px',
+        color: '#3D464D',
+        borderRadius: '0',
+        height: '40px' // Increased height
+      }}
+    />
+    <div className="input-group-append">
+      <button
+        className="btn btn-primary"
+        style={{
+          backgroundColor: '#FFD333',
+          borderColor: '#FFD333',
+          height: '40px', // Increased height
+          width: '120px',
+          color: '#3D464D',
+          borderRadius: '0',
+          marginLeft: '5px',
+          marginTop: '-0px' // Adjust to move button up
+        }}
+      >
+        Sign Up
+      </button>
+    </div>
+  </div>
+</form>
+
               <h6 className="text-uppercase mt-4 mb-3">Follow Us</h6>
               <div className="d-flex custom-yellow">
                 <a className="btn btn-primary btn-square mr-2" href="#"><i className="fab fa-twitter"></i></a>
@@ -113,9 +122,6 @@ const Footer = () => {
             Rahul Gupta
             </Link>
           </p>
-        </div>
-        <div className="col-md-6 px-xl-0 text-center text-md-right">
-          <img className="img-fluid" src="img/payments.png" alt="" />
         </div>
       </div>
     </div>
