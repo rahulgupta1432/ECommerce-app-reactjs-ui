@@ -576,12 +576,12 @@ categories.map((category) => (
                 <h1>All Products</h1>
 
 
-          {JSON.stringify(checked,null,4)}
-          {JSON.stringify(priceRange,null,4)}
-          {JSON.stringify(star,null,4)}
-          {JSON.stringify(wishlist,null,4)}
-          Lentth:
-          {JSON.stringify(products.length,null,4)};
+          {/* {JSON.stringify(checked,null,4)} */}
+          {/* {JSON.stringify(priceRange,null,4)} */}
+          {/* {JSON.stringify(star,null,4)} */}
+          {/* {JSON.stringify(wishlist,null,4)} */}
+          {/* Lentth: */}
+          {/* {JSON.stringify(products.length,null,4)}; */}
           <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-start',marginBottom:'15px',marginTop:'-60px' }}>
           <Dropdown value={limit}
           onChange={onChangeLimit}

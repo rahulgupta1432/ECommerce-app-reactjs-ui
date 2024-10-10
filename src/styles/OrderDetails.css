@@ -206,3 +206,10 @@ h2{
 #progressbar li.active:after {
     background: #4bb8a9; 
 } 
+
+
+
+.back-btn:hover{
+
+    cursor: pointer;
+}

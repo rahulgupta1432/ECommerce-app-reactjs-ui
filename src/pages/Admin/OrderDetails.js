@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../../components/Layout/Header';
 import AdminMenu from '../../components/Layout/AdminMenu';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { API_URL } from '../../constants/constants';
 import '../../styles/OrderDetails.css';
-
+import UserMenu from '../../components/Layout/UserMenu';
+import { useAuth } from '../../context/Auth';
+import { Button } from 'primereact/button';
 const OrderDetails = () => {
   const params = useParams();
   const [order, setOrder] = useState(null);
+  const [auth] = useAuth();
 
   useEffect(() => {
     getOrderById();
@@ -39,7 +42,15 @@ const OrderDetails = () => {
       <div className='container-fluid m-3 p-3'>
         <div className='row'>
           <div className='col-md-2'>
-            <AdminMenu />
+            {/* <AdminMenu />
+            <UserMenu/> */}
+            {
+              auth && auth.user && auth.user.isAdmin ? (
+                <AdminMenu />
+              ) : (
+                <UserMenu />
+              )
+            }
           </div>
           <div className='col-md-5'>
             <h2>Order Details</h2>
@@ -51,7 +62,7 @@ const OrderDetails = () => {
                   <p>Date: {new Date(item.createdAt).toLocaleDateString()}</p>
                   <h6 style={{ textDecoration: 'none', color: '#3D464D' }}>
                     Total Price: {item.totalPayment}
-                    <label className='ml-2 custom-label'>via({(item?.paymentMode||'COD')})</label>
+                    <label className='ml-2 custom-label'>via({(item?.paymentMode || 'COD')})</label>
                   </h6>
                   <h4 className='order-name'>{item.product[0]?.name}</h4>
                   <img className="img-fluid" src={item.product[0]?.imageList[0]} alt="Product" />
@@ -79,54 +90,34 @@ const OrderDetails = () => {
                   <h5>Tracking Information</h5>
                   <p>Tracking ID: {item.trackingId || 'N/A'}</p>
                   <p>Estimated Delivery Date: {estimatedDeliveryDate(item.createdAt)}</p>
-{/* 
                   <h5>Journey</h5>
                   <div className="row px-3">
-  <div className="col">
-    <ul id="progressbar" style={{ textDecoration: 'none', listStyle: 'none' }}>
-      <li className={`step0 ${item.status === 'Placed' || item.status === 'Cancelled' ? 'active' : ''}`} id="step1">PLACED</li>
-      <li className={`step0 ${item.status === 'Shipped' || item.status === 'Cancelled' ? 'active' : ''}`} id="step2">
-        <div id="progress2">SHIPPED</div>
-      </li>
-      {item.status === 'Cancelled' ? (
-        <li className={`step0 active`} id="step3" style={{ color: 'red' }}>
-          CANCELLED
-        </li>
-      ) : (
-        <li className={`step0 ${item.status === 'Delivered' ? 'active' : ''}`} id="step4">DELIVERED</li>
-      )}
-    </ul>
-  </div>
-</div> */}
-<h5>Journey</h5>
-<div className="row px-3">
-  <div className="col" >
-    <ul id="progressbar" style={{ textDecoration: 'none', listStyle: 'none' }}>
-      <li className={`step0 ${item.status === 'Placed' || item.status === 'Cancelled' ? 'active' : ''}`} id="step1"><div id='progress1'>PLACED</div></li>
-      <li className={`step0 ${item.status === 'Shipped' || item.status === 'Cancelled' ? 'active' : ''}`} id="step2">
-        <div id="progress2">SHIPPED</div>
-      </li>
-      {item.status === 'Cancelled' ? (
-        <li className={`step0 active`} id="step3">
-          <div id="progress3">CANCELLED</div>
-        </li>
-      ) : (
-        <li className={`step0 ${item.status === 'Delivered' ? 'active' : ''}`} id="step4">DELIVERED</li>
-      )}
-    </ul>
-  </div>
-</div>
-
-
-
-                  {/* <div className="modal-footer">
-                    <button type="button" className="btn">Track order</button>
-                  </div> */}
+                    <div className="col" >
+                      <ul id="progressbar" style={{ textDecoration: 'none', listStyle: 'none' }}>
+                        <li className={`step0 ${item.status === 'Placed' || item.status === 'Cancelled' ? 'active' : ''}`} id="step1"><div id='progress1'>PLACED</div></li>
+                        <li className={`step0 ${item.status === 'Shipped' || item.status === 'Cancelled' ? 'active' : ''}`} id="step2">
+                          <div id="progress2">SHIPPED</div>
+                        </li>
+                        {item.status === 'Cancelled' ? (
+                          <li className={`step0 active`} id="step3">
+                            <div id="progress3">CANCELLED</div>
+                          </li>
+                        ) : (
+                          <li className={`step0 ${item.status === 'Delivered' ? 'active' : ''}`} id="step4">DELIVERED</li>
+                        )}
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               ))
             ) : (
               <p>Loading order details...</p>
             )}
+            <Button className='back-btn btn bg-btn-info' style={{ width: '220px', marginLeft: '180px', marginTop: '70px', backgroundColor: '#FFFFFF', borderColor: '#0000' }}>
+              <Link
+                to={auth.user.isAdmin ? '/dashboard/admin/all-orders' : '/dashboard/user/orders'}
+                style={{ listStyle: 'none', textDecoration: 'none' }}>
+                Back to Orders</Link></Button>
           </div>
         </div>
       </div>
