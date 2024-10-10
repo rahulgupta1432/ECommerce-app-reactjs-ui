@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import {Routes,Route} from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import About from './pages/About';
 import Contact from './pages/Contact';
@@ -27,66 +27,64 @@ import ProductDetails from './pages/ProductDetails';
 import CategoryProducts from './pages/CategoryProducts';
 import AllCategories from './pages/AllCategories';
 import Cart from './pages/Cart';
-import UserProfile  from './pages/User/UserProfile';
+import UserProfile from './pages/User/UserProfile';
 import AccountDetails from './pages/User/AccountDetails';
 import Checkout from './pages/Checkout';
 import OrderDetails from './pages/Admin/OrderDetails';
-// import UserProfile from './pages/User/UserProfile';
-// import AccountDetails from './pages/User/AccountDetails';
-// import TemplateDemo from './pages/Admin/TemplateDemo';
+import UserOrderPage from './pages/User/UserOrderPage';
 
 function App() {
   const [contactMethod, setContactMethod] = useState('');
-  const [getContactNumber,setContactNumber]=useState('');
+  const [getContactNumber, setContactNumber] = useState('');
   return (
     <>
-    <Routes>
-      <Route path='/' element={<HomePage/>}/>
-      <Route path='/search' element={<Search/>}/>
-      <Route path='/product/:slug/prd/:id' element={<ProductDetails/>}/>
-      <Route path='/category/:id/cat/:id' element={<CategoryProducts/>}/>
-      <Route path='/categories' element={<AllCategories/>}/>
-      <Route path='/cart-checkout' element={<Cart/>}/>
-      <Route path='/checkout' element={<Checkout/>}/>
+      <Routes>
+        <Route path='/' element={<HomePage />} />
+        <Route path='/search' element={<Search />} />
+        <Route path='/product/:slug/prd/:id' element={<ProductDetails />} />
+        <Route path='/category/:id/cat/:id' element={<CategoryProducts />} />
+        <Route path='/categories' element={<AllCategories />} />
+        <Route path='/cart-checkout' element={<Cart />} />
+        <Route path='/checkout' element={<Checkout />} />
 
 
-      
-            {/* Nested private routes */}
-      <Route path='/dashboard' element={<PrivateRoute />}>
-        <Route index element={<Dashboard />} />
-        <Route path='user' element={<Dashboard />} />
-        <Route path='user/profile-details' element={<UserProfile />} />
-        <Route path='user/account-details' element={<AccountDetails />} />
-        {/* <Route path='user/orders' element={<OrdersPage/>} /> */}
-        
-        {/* Nested admin routes under dashboard */}
-        <Route path='admin' element={<AdminRoute />}>
-        <Route element={<AdminMenu />}/>
-          <Route index element={<AdminDashboard />} />
-          <Route path='categories' element={<CategoryPage />} />
-          <Route path='products' element={<ProductsPage />} />
-          <Route path='all-orders' element={<OrdersPage />} />
-          <Route path='offers' element={<OfferPage />} />
-          <Route path='users' element={<UsersPage />} />
-          <Route path='orders/:id' element={<OrderDetails />} />
+
+        {/* Nested private routes */}
+        <Route path='/dashboard' element={<PrivateRoute />}>
+          <Route index element={<Dashboard />} />
+          <Route path='user' element={<Dashboard />} />
+          <Route path='user/profile-details' element={<UserProfile />} />
+          <Route path='user/account-details' element={<AccountDetails />} />
+          <Route path='user/orders/:id' element={<OrderDetails />} />
+          <Route path='user/orders' element={<UserOrderPage />} />
+
+          {/* Nested admin routes under dashboard */}
+          <Route path='admin' element={<AdminRoute />}>
+            <Route element={<AdminMenu />} />
+            <Route index element={<AdminDashboard />} />
+            <Route path='categories' element={<CategoryPage />} />
+            <Route path='products' element={<ProductsPage />} />
+            <Route path='all-orders' element={<OrdersPage />} />
+            <Route path='offers' element={<OfferPage />} />
+            <Route path='users' element={<UsersPage />} />
+            <Route path='orders/:id' element={<OrderDetails />} />
+          </Route>
         </Route>
-      </Route>
 
-      <Route path='/about' element={<About/>}/>
-      <Route path='/contact' element={<Contact/>}/>
-      <Route path='/policy' element={<Policy/>}/>
-      <Route path='*' element={<Pagenotfound/>}/>
-      <Route path="/register" element={<Register setContactMethod={setContactMethod} setContactNumber={setContactNumber}/>}/>
-      <Route path='/verification' element={<Verification contactMethod={contactMethod } getContactNumber={getContactNumber}/>}/>
-      <Route path='/login' element={<Login/>}/>
-      <Route path='/forget-password' element={<ForgetPassword/>}/>
-      <Route path='/reset-password' element={<ResetPassword/>}/>
-      {/* <Route path='/data' element={<TemplateDemo/>}></Route> */}
+        <Route path='/about' element={<About />} />
+        <Route path='/contact' element={<Contact />} />
+        <Route path='/policy' element={<Policy />} />
+        <Route path='*' element={<Pagenotfound />} />
+        <Route path="/register" element={<Register setContactMethod={setContactMethod} setContactNumber={setContactNumber} />} />
+        <Route path='/verification' element={<Verification contactMethod={contactMethod} getContactNumber={getContactNumber} />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/forget-password' element={<ForgetPassword />} />
+        <Route path='/reset-password' element={<ResetPassword />} />
 
-      
-      
-    </Routes>
-    <ToastContainer />
+
+
+      </Routes>
+      <ToastContainer />
     </>
   )
 }

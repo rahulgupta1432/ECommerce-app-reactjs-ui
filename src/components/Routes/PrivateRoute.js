@@ -82,7 +82,7 @@ export default function PrivateRoute() {
         const authCheck = async () => {
             if (!auth?.token) {
                 setLoading(false);
-                return;
+                // return;
             }
             try {
                 const res = await axios.get(`${API_URL}/api/v1/auth/user-auth`);
