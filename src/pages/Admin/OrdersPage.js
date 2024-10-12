@@ -35,6 +35,7 @@ import { Column } from 'primereact/column';
 import { FiEye } from "react-icons/fi";
 import { Button } from 'primereact/button';
 import { useNavigate } from 'react-router-dom';
+import { Dropdown } from 'primereact/dropdown';
 
 const OrdersPage = () => {
   const [order, setOrder] = useState([]);
@@ -56,6 +57,62 @@ const OrdersPage = () => {
       toast.error(error?.response?.data?.message);
     }
   }
+
+  const statusOptions = [
+    { label: 'Placed', value: 'Placed' },
+    { label: 'Shipped', value: 'Shipped' },
+    { label: 'Cancelled', value: 'Cancelled' },
+    { label: 'Delivered', value: 'Delivered' }
+  ];
+  const updateOrderStatus = async (orderId, newStatus) => {
+    try {
+      const response = await axios.put(`${API_URL}/api/v1/admin/update-status/order`, {
+        orderId,
+        status: newStatus
+      });
+      if (response.data?.code === 200) {
+        toast.success('Order status updated successfully');
+        getAllOrders();
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  };
+
+  const statusBodyTemplate = (rowData) => {
+    const colorMap = {
+      'Placed': '#007bff',
+      'Shipped': '#FFA500',
+      'Cancelled': 'red',
+      'Delivered': 'green',
+    };
+  
+    const selectedColor = colorMap[rowData.status];
+  
+    return (
+      <div>
+        <Dropdown
+          value={rowData.status}
+          options={statusOptions}
+          onChange={(e) => updateOrderStatus(rowData._id, e.value)}
+          placeholder="Select Status"
+          itemTemplate={(option) => (
+            <span style={{ color: colorMap[option.value] }} className='mt-4'>
+              {option.label}
+            </span>
+          )}
+          valueTemplate={(option) => (
+            <span style={{ color: selectedColor }}>
+              {option ? option.label : 'Select Status'}
+            </span>
+          )}
+          style={{ width: '150px' }}
+        />
+      </div>
+    );
+  };
+  
+  
 
   // template function 
   const header = (
@@ -133,13 +190,11 @@ const OrdersPage = () => {
 
   const footer = `In total there are ${order ? order.length : 0} orders.`;
   const imageBodyTemplate = (order) => {
-    console.log(order)
     return (
       <div style={{ display: 'flex', justifyContent: 'flex-start', margin: '10px 0' }}>
         <img
           src={`${order.product[0].imageList[0]}`}
           alt={order.name || 'Order name'}
-          // style={{ width: '100px', height: 'auto', margin: '0 10px' }} // Adjust the margin as needed
           style={{
             width: '100px', // Fixed width
             height: '100px', // Fixed height
@@ -196,24 +251,24 @@ const OrdersPage = () => {
                 <Column header="Order ID"
                   body={(rowData) => rowData._id}
                   style={{ width: '5%', marginRight: '20px' }} />
+                  <Column header="Customer Name"
+                  body={(rowData) => rowData.buyer.username}
+                  style={{ width: '5%', marginRight: '20px',padding:'40px' }} />
                 <Column
                   header={<div style={{ textAlign: 'left', marginBottom: '10px', marginTop: '10px', marginLeft: '30px' }}>Image</div>}
                   body={imageBodyTemplate} />
                 <Column header="Total Payment"
-                  body={(rowData) => rowData.totalPayment ? rowData.totalPayment : 'Not Found'}
-                  style={{
-                    // paddingLeft:'10vh',
-                    // marginLeft:'-110vh'
-                  }}
-                />
-                {/* <Column field={(rowData)=>rowData.status} header="Status"/> */}
-                <Column
+                  body={(rowData) => rowData.totalPayment ? rowData.totalPayment : 'Not Found'} style={{padding:'20px'}}/>
+                  <Column header="Payment Mode"
+                  body={(rowData) => rowData.paymentMode||"OTHER"}
+                  style={{  marginRight: '20px',padding:'40px' }} />
+                {/* <Column
                   field={(rowData) => {
                     let color;
                     let fontSize;
                     let fontWeight;
                     if (rowData.status === 'Placed') {
-                      color='#007bff';
+                      color='#007bff';  
                       fontSize = '12px';
                       fontWeight = 'bold'
                     } else if (rowData.status === 'Shiped') {
@@ -236,9 +291,9 @@ const OrdersPage = () => {
                     );
                   }}
                   header="Status"
-                />
-
-                <Column field={(rowData) => formatDate(rowData.createdAt)} header="Order Date" />
+                /> */}
+                <Column header="Status" body={statusBodyTemplate}  style={{padding:'10px'}}/>
+                <Column field={(rowData) => formatDate(rowData.createdAt)} header="Order Date" style={{padding:'20px'}} />
                 <Column
     header="Action"
     body={(rowData) => (
