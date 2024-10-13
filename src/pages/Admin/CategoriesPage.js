@@ -294,7 +294,7 @@ const handleUpdateCategory=async()=>{
             <AdminMenu />
           </div>
           <div className="col-md-10">
-            <span className="text-xl text-900 font-bold">All Categories</span>
+            <span className="text-xl text-900 font-bold ml-4">All Categories</span>
             <div className="card">
               <DataTable value={categories} header={header} footer={footer} tableStyle={{ minWidth: '100%' }}>
                 <Column header="SR. No" body={(rowData, { rowIndex }) => rowIndex + 1} style={{ width: '5%' }} />
