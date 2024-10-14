@@ -13,6 +13,10 @@ import Footer from '../components/Layout/Footer';
 const Checkout = () => {
     const [cart,setCart] = useCart();
     const [auth] = useAuth();
+    // const userId=auth?.user?._id;
+    const userData=localStorage.getItem('auth');
+    const userId=JSON.parse(userData)._id;
+
     const [checkout, setCheckout] = useState(null);
     const [formData, setFormData] = useState({
         firstName: '',
@@ -31,12 +35,13 @@ const Checkout = () => {
     const navigate=useNavigate();
     let [paymentMode,setPaymentMode]=useState(['']);
     const [showDropIn, setShowDropIn] = useState(false);
-    console.log({checkout});
-
+    console.log(checkout)
+    
     // Fetch user profile data
+
     const getUserProfile = async () => {
         try {
-            const response = await axios.get(`${API_URL}/api/v1/user/get-user?userId=${auth?.user?._id}`);
+            const response = await axios.get(`${API_URL}/api/v1/user/get-user?userId=${userId}`);
             const resp = response.data;
 
             if (resp?.code === 200) {
@@ -104,7 +109,7 @@ const Checkout = () => {
             const parsedCheckout = JSON.parse(getAmounts);
             setCheckout(parsedCheckout);
         }
-    }, [auth?.user?._id,auth?.token]);
+    }, [userId,auth?.token]);
     const handlePayment=async()=>{
         try {
           setLoading(true);
@@ -119,7 +124,7 @@ const Checkout = () => {
           if(paymentMode==="Cash on Delivery"){
             paymentMode="COD";
           }
-
+    
           const response=await axios.post(`${API_URL}/api/v1/payment/process?paymentMode=${paymentMode}`,{
             nonce:nonceData,cart,
             quantity:totalQuantity,
@@ -156,6 +161,9 @@ const Checkout = () => {
         } else if (paymentMode === "UPI") {
             // Show a message that UPI is currently unavailable
             toast.info("UPI payment method is currently unavailable.");
+        } else if(paymentMode==='CRYPTO'){
+            handlePayment();
+
         }
     };
     
@@ -262,7 +270,7 @@ const Checkout = () => {
                                 <span className="bg-secondary pr-3">Payment</span>
                             </h5>
                             <div className="bg-light p-30">
-                            {['Paypal', 'Cash On Delivery', 'UPI'].map((paymentMethod, index) => (
+                            {['Paypal', 'Cash On Delivery', 'UPI','CRYPTO'].map((paymentMethod, index) => (
     <div className="form-group" key={index}>
         <div className="custom-control custom-radio">
             <input
