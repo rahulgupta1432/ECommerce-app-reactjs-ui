@@ -15,9 +15,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import {  useNavigate } from 'react-router-dom';
 import Footer from '../components/Layout/Footer';
-
-        
-
+import OfflinePage from '../components/utils/OfflinePage';
 
 function HomePage() {
   const [products, setProducts] = useState([]);
@@ -43,9 +41,27 @@ function HomePage() {
   const [productSearch,
     setProductSearch
   ]=useState('');
+  const [isOffline,setIsOffline]=useState(!navigator.onLine);
+
+  const updateOnlineStatus = () => {
+    setIsOffline(!navigator.onLine);
+  };
+  useEffect(()=>{
   
-  // categories= ['Electronics', 'Fashion', 'Home & Kitchen', 'Books', 'Toys'];
-  
+     updateOnlineStatus();
+
+    window.addEventListener('online',updateOnlineStatus);
+    window.addEventListener('offline',updateOnlineStatus);
+    
+    return () => {
+      window.removeEventListener('online', updateOnlineStatus);
+      window.removeEventListener('offline', updateOnlineStatus);
+    };
+
+  },[]);
+  if (isOffline) {
+    return <OfflinePage />;
+  }  
   const clearFilters = () => {
     // Clear filters logic here
     setChecked([]);
