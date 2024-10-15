@@ -49,7 +49,7 @@ const LineChartWithAnnotations = ({ series }) => {
             color: '#fff',
             background: '#775DD0',
           },
-          text: 'Anno Test',
+          text: 'Test',
         },
       }, {
         x: new Date('26 Nov 2017').getTime(),
@@ -110,7 +110,7 @@ const LineChartWithAnnotations = ({ series }) => {
       },
     },
     title: {
-      text: 'Line with Annotations',
+      text: 'Earning Statistics',
       align: 'left',
     },
     labels: series.monthDataSeries1.dates,
@@ -121,7 +121,9 @@ const LineChartWithAnnotations = ({ series }) => {
 
   return (
     <div id="chart">
-      <Chart options={options} series={options.series} type="line" height={350} />
+      <Chart options={options} series={options.series} type="line" height={250}
+      //  width={700} 
+       />
     </div>
   );
 };
