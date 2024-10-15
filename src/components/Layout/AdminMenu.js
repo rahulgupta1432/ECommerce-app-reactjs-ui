@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet, NavLink } from 'react-router-dom';
-import { MdOutlineDashboard, MdOutlineDescription } from "react-icons/md";
+// import {MdOutlineDashboard} from "react-icons/md"
+import {  MdOutlineDescription } from "react-icons/md";
 import { LuScrollText } from "react-icons/lu";
 import { GiShoppingBag } from "react-icons/gi";
 import { LuPackagePlus } from "react-icons/lu";
@@ -23,12 +24,12 @@ const AdminMenu = () => {
                         <NavLink to="/dashboard/admin" className="sidebar-link">Admin Dashboard</NavLink>
                     </h4>
                     <div className="list-group">
-                        <NavLink 
+                        {/* <NavLink 
                             to="/dashboard/admin/dashboard" 
                             className={({ isActive }) => `list-group-item ${isActive ? 'active' : ''}`}>
                             <MdOutlineDashboard className="sidebar-icon" />
                             <span className="sidebar-text">Dashboard</span>
-                        </NavLink>
+                        </NavLink> */}
                         
                         <NavLink 
                             to="/dashboard/admin/categories" 
