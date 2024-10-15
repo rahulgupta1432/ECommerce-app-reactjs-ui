@@ -461,7 +461,9 @@ function HomePage() {
       }
       <div className="flex">
         {/* Filter section */}
-        <div className="flex flex-column bg-white p-3 border-round shadow-2" style={{ width: '260px', marginRight: '20px' }}>
+        <div className="flex flex-column bg-white p-3 border-round shadow-2" style={{ width: '260px', marginRight: '20px'
+          ,maxHeight: '670px',overflowY: 'auto'  
+          }}>
         <h3 className="text-xl font-semibold mb-3">Filters</h3>
 
 <h4 className="font-medium mb-2">Categories</h4>
