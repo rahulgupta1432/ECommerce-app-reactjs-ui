@@ -102,7 +102,8 @@ const CategoryProducts = () => {
               ))}
             </form>
 
-            {/* <h5 className="section-title-catprd" style={{ marginTop: '20px' }}>Filter by size</h5>
+            {/* <h5 className
+            ="section-title-catprd" style={{ marginTop: '20px' }}>Filter by size</h5>
             <form style={{ marginTop: '10px' }}>
               {['All Size', 'XS', 'S', 'M', 'L', 'XL'].map((size, index) => (
                 <div className="custom-control custom-checkbox-catprd" key={index}>
