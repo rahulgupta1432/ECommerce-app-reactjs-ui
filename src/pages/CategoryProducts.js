@@ -10,10 +10,16 @@ const CategoryProducts = () => {
   const [product, setProduct] = useState([]);
   const params = useParams();
   const navigate = useNavigate();
+  const [checked,setChecked]=useState([]);
+  const [colorsChecked,setColorsChecked]=useState([]);
 
   const getProductByCategory = async () => {
     try {
-      const response = await axios.get(`${API_URL}/api/v1/product/category-based?categoryId=${params.id}`);
+      const requestData={
+        checked:checked,
+        colors:colorsChecked
+      }
+      const response = await axios.post(`${API_URL}/api/v1/product/category-based?categoryId=${params.id}`,requestData);
       const resp = response?.data;
       if (resp?.code === 200) {
         setProduct(resp?.data.slice(0, -1));
@@ -25,54 +31,87 @@ const CategoryProducts = () => {
 
   useEffect(() => {
     getProductByCategory();
-  }, [params?.id]);
+  }, [params?.id,checked,colorsChecked]);
 
   const ratings = [3.9, 3.2, 4.5, 4.9, 3.2, 2.5, 2.9];
+  const categoryName = location.pathname.split('/')[2]; // Yeh "category" ke baad wala hissa lega
+  const handlePriceFilter=(value,isChecked)=>{
+    let all=[...checked];
+    if(isChecked){
+      all.push(value);
+    }else {
+      all = all.filter(item => item !== value);
+    }
+    setChecked(all);
+  }
+
+  const handleColorFilter=(value,isChecked)=>{
+    let all=[...colorsChecked];
+    const lowerCaseValue = value.toLowerCase();
+    if(isChecked){
+      if (!all.includes(lowerCaseValue)) {
+        all.push(lowerCaseValue);
+      }  
+    }else {
+      all = all.filter(item => item !== lowerCaseValue);
+
+    }
+    setColorsChecked(all);
+  }
+
 
   return (
     <>
       <Header />
       <div className="container-fluid-catprd">
-        <h1 style={{ textAlign: 'center' }}>Category</h1>
+        <h1 style={{ textAlign: 'center',paddingTop:'5px' }}>{categoryName}</h1>
 
         {/* Filters Section */}
         <div className="row filters-container" style={{
-          marginTop: '-1.7%'
+          marginTop: '-1.9%'
           // , marginBottom: '30px' 
         }}>
           <div className="col-lg-3 col-md-4 sidebar-catprd" style={{ marginTop: '-10px', marginBottom: '80px' }}>
             <h5 className="section-title-catprd">Filter by price</h5>
-            <form style={{ marginTop: '-7px' }}>
-              {['All Price', '$0 - $100', '$100 - $200', '$200 - $300', '$300 - $400', '$400 - $500'].map((price, index) => (
+            <form style={{ marginTop: '10px' }}>
+              {['All Price','$100 - $500', '$500 - $2000', '$2000 - $4000', '$4000 - $50000'].map((price, index) => (
                 <div className="custom-control custom-checkbox-catprd" key={index}>
-                  <input type="checkbox" className="custom-control-input" id={`price-${index}`} />
+                  <input type="checkbox" className="custom-control-input" id={`price-${index}`}
+                  onClick={(e)=>{
+                    handlePriceFilter(price,e.target.checked);
+                  }}
+                  />
                   <label className="custom-control-label ml-2" htmlFor={`price-${index}`}>{price}</label>
-                  <span className="badge border">{Math.floor(Math.random() * 200 + 100)}</span>
+                  {/* <span className="badge border">{Math.floor(Math.random() * 200 + 100)}</span> */}
                 </div>
               ))}
             </form>
 
-            <h5 className="section-title-catprd" style={{ marginTop: '-9px' }}>Filter by color</h5>
-            <form style={{ marginTop: '-7px' }}>
-              {['All Color', 'Black', 'White', 'Red', 'Blue', 'Green'].map((color, index) => (
+            <h5 className="section-title-catprd" style={{ marginTop: '20px' }}>Filter by color</h5>
+            <form style={{ marginTop: '10px' }}>
+              {['All Colors', 'Black', 'White', 'Red', 'Blue', 'Green','Yellow'].map((color, index) => (
                 <div className="custom-control custom-checkbox-catprd" key={index}>
-                  <input type="checkbox" className="custom-control-input" id={`color-${index}`} />
+                  <input type="checkbox" className="custom-control-input" id={`color-${index}`}
+                  onClick={(e)=>{
+                    handleColorFilter(color,e.target.checked);
+                  }}
+                  />
                   <label className="custom-control-label ml-2" htmlFor={`color-${index}`}>{color}</label>
-                  <span className="badge border">{Math.floor(Math.random() * 200 + 100)}</span>
+                  {/* <span className="badge border">{Math.floor(Math.random() * 200 + 100)}</span> */}
                 </div>
               ))}
             </form>
 
-            <h5 className="section-title-catprd" style={{ marginTop: '-5px' }}>Filter by size</h5>
-            <form style={{ marginTop: '-7px' }}>
+            {/* <h5 className
+            ="section-title-catprd" style={{ marginTop: '20px' }}>Filter by size</h5>
+            <form style={{ marginTop: '10px' }}>
               {['All Size', 'XS', 'S', 'M', 'L', 'XL'].map((size, index) => (
                 <div className="custom-control custom-checkbox-catprd" key={index}>
                   <input type="checkbox" className="custom-control-input" id={`size-${index}`} />
                   <label className="custom-control-label ml-2" htmlFor={`size-${index}`}>{size}</label>
-                  <span className="badge border">{Math.floor(Math.random() * 200 + 100)}</span>
                 </div>
               ))}
-            </form>
+            </form> */}
           </div>
 
           {/* Products Section */}
@@ -108,7 +147,7 @@ const CategoryProducts = () => {
               ))}
             </div>
 
-            <nav>
+            {/* <nav>
               <ul className="pagination justify-content-center">
                 <li className="page-item disabled"><a className="page-link" href="#">Previous</a></li>
                 <li className="page-item active"><a className="page-link" href="#">1</a></li>
@@ -116,7 +155,7 @@ const CategoryProducts = () => {
                 <li className="page-item"><a className="page-link" href="#">3</a></li>
                 <li className="page-item"><a className="page-link" href="#">Next</a></li>
               </ul>
-            </nav>
+            </nav> */}
           </div>
         </div>
       </div>
