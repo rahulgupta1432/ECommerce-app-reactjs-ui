@@ -452,7 +452,8 @@ function HomePage() {
           onHide={handleCloseModal}
           >
           <img
-            src="https://cdn3.mageplaza.com/media/general/MImGnKu.png"
+            // src="https://cdn3.mageplaza.com/media/general/MImGnKu.png"
+            src='https://t3.ftcdn.net/jpg/02/37/32/86/360_F_237328636_8JTUvMyTweop4AMEKbGzLDtLa76gh0tf.jpg'
             alt="Offer"
             style={{ width: '100%' }}
             />
